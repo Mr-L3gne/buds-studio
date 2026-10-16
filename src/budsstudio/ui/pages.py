@@ -31,6 +31,7 @@ class Page:
         self.ui = ui
         self.updating = False
         self.page = ui.get("page", Adw.NavigationPage)
+        self._dirty = True
 
     def run(self, action, *args) -> None:
         """Executa um comando do fone e mostra o erro num toast."""
@@ -49,7 +50,16 @@ class Page:
         return self.device.connected and self.device.state.ready
 
     def refresh(self) -> None:
+        # Página fora da tela (ou janela minimizada): só marca; atualiza quando aparecer.
+        if not self.window.is_shown(self):
+            self._dirty = True
+            return
+        self._dirty = False
         self.guarded(self._refresh)
+
+    def refresh_if_dirty(self) -> None:
+        if self._dirty:
+            self.refresh()
 
     def _refresh(self) -> None:
         pass

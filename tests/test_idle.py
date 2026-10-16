@@ -11,13 +11,13 @@ from unittest import mock
 
 import frames  # noqa: F401  (põe src/ no sys.path)
 from test_manager import CORE_A, manager_with, status_with_battery
-from test_services import PipeWireParsingTest
+import test_services
 
 from budsstudio.services import audio as audio_mod
 from budsstudio.services.audio import AudioService
 from budsstudio.services.system_eq import SystemEqService
 
-OBJECTS = PipeWireParsingTest.OBJECTS
+OBJECTS = test_services.PipeWireParsingTest.OBJECTS
 
 
 class FakeDump:
@@ -87,6 +87,77 @@ class SystemEqIdleTest(unittest.TestCase):
         self.assertEqual(changed, [])
         eq.set_gains([1.0] + [0.0] * 9)
         self.assertEqual(changed, [1])
+
+
+def _ui_available() -> bool:
+    try:
+        import gi
+
+        gi.require_version("Gtk", "4.0")
+        gi.require_version("Adw", "1")
+        from gi.repository import Adw, Gdk
+
+        return hasattr(Adw, "ToggleGroup") and Gdk.Display.get_default() is not None
+    except (ImportError, ValueError):
+        return False
+
+
+@unittest.skipUnless(_ui_available(), "precisa de GTK 4/libadwaita ≥ 1.7 e de um display")
+class WindowIdleTest(unittest.TestCase):
+    """A janela de verdade, com o fone simulado."""
+
+    @classmethod
+    def setUpClass(cls):
+        from gi.repository import Adw, Gio
+
+        cls.gtk_app = Adw.Application(application_id="io.github.mr_l3gne.BudsStudio.Test",
+                                      flags=Gio.ApplicationFlags.NON_UNIQUE)
+        cls.gtk_app.register(None)
+
+    def setUp(self):
+
+        from budsstudio.services.config import Config
+        from budsstudio.services.manager import SelectedDevice
+        from budsstudio.services.profiles import ProfileStore
+        from budsstudio.ui.style import load_stylesheet
+        from budsstudio.ui.window import MainWindow
+
+        tmp = Path(tempfile.mkdtemp())
+        app = self.gtk_app
+        app.config = Config()
+        app.manager, (self.transport,) = manager_with(CORE_A)
+        app.device = SelectedDevice(app.manager)
+        app.system_eq = SystemEqService()
+        app.audio = AudioService()
+        app.profiles = ProfileStore(tmp / "profiles.json")
+        app.keep_running_in_background = lambda: True
+        app.window = None
+        load_stylesheet()
+        self.app = app
+        self.window = MainWindow(app)
+        app.window = self.window
+        self.transport.on_data(status_with_battery(80, 81))
+
+    def test_refresh_sends_nothing_to_the_earbuds(self):
+        sent = len(self.transport.sent)
+        self.window.window.present()
+        for page in self.window.pages:
+            page.guarded(page._refresh)  # todas, visíveis ou não
+        self.window.refresh()
+        self.assertEqual(len(self.transport.sent), sent)
+
+    def test_hidden_pages_wait_until_shown(self):
+        calls = {}
+        for page in self.window.pages:
+            original = page._refresh
+            page._refresh = (lambda p=page, f=original: (calls.__setitem__(type(p).__name__, calls.get(type(p).__name__, 0) + 1), f())[1])
+        self.window.window.present()
+        calls.clear()
+        self.transport.on_data(status_with_battery(70, 71))
+        self.window.refresh()  # o que BudsStudioApplication faz a cada "state-changed"
+        self.assertEqual(set(calls), {"HomePage"})  # só a página à vista
+        self.window.nav.push_by_tag("about")
+        self.assertIn("AboutPage", calls)  # atualiza ao aparecer
 
 
 if __name__ == "__main__":

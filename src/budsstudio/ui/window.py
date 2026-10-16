@@ -108,6 +108,11 @@ class MainWindow:
             self.window.add_action(action)
 
         self.window.connect("close-request", self._on_close_request)
+        # Páginas só se atualizam quando estão à vista: ao aparecer, recuperam o que perderam.
+        self._by_page = {p.page: p for p in self.pages}
+        for signal in ("notify::visible", "notify::suspended"):
+            self.window.connect(signal, lambda *_: self._refresh_shown())
+        self.nav.connect("notify::visible-page", lambda *_: self._refresh_shown())
         style = Adw.StyleManager.get_default()
         style.connect("notify::dark", lambda *_: self._sync_dark())
         self._sync_dark()
@@ -188,6 +193,18 @@ class MainWindow:
     def refresh(self) -> None:
         for page in self.pages:
             page.refresh()
+
+    def is_shown(self, page) -> bool:
+        return (
+            self.window.get_visible()
+            and not self.window.get_property("suspended")
+            and self.nav.get_visible_page() is page.page
+        )
+
+    def _refresh_shown(self) -> None:
+        page = self._by_page.get(self.nav.get_visible_page())
+        if page is not None:
+            page.refresh_if_dirty()
 
     def _on_close_request(self, _window) -> bool:
         if self.app.keep_running_in_background():
