@@ -53,6 +53,7 @@ class BudsStudioApplication(Adw.Application):
         self.device: SelectedDevice | None = None
         self.tray: TrayIcon | None = None
         self._started = False
+        self._stylesheet_loaded = False
         self._background_hold = False
         self._pending_cli: list = []
         self._cli_running = 0
@@ -195,7 +196,9 @@ class BudsStudioApplication(Adw.Application):
         self.persistent = True
         self.start_device()
         if self.window is None:
-            load_stylesheet()
+            if not self._stylesheet_loaded:
+                load_stylesheet()
+                self._stylesheet_loaded = True
             self.window = MainWindow(self)
             self.window.connection_changed(self.device.connection.value, "")
         self.window.present()

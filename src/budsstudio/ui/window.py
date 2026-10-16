@@ -114,7 +114,7 @@ class MainWindow:
             self.window.connect(signal, lambda *_: self._refresh_shown())
         self.nav.connect("notify::visible-page", lambda *_: self._refresh_shown())
         style = Adw.StyleManager.get_default()
-        style.connect("notify::dark", lambda *_: self._sync_dark())
+        self._dark_handler = style.connect("notify::dark", lambda *_: self._sync_dark())
         self._sync_dark()
         self.apply_background()
         self.devices_changed()
@@ -207,7 +207,16 @@ class MainWindow:
             page.refresh_if_dirty()
 
     def _on_close_request(self, _window) -> bool:
+        # Com a bandeja, o app segue só com a conexão, a bandeja e as notificações: a janela é
+        # destruída (não só escondida) e recriada ao reabrir.
         if self.app.keep_running_in_background():
-            self.window.set_visible(False)
+            self.destroy()
             return True
         return False
+
+    def destroy(self) -> None:
+        Adw.StyleManager.get_default().disconnect(self._dark_handler)
+        for page in self.pages:
+            page.destroy()
+        self.app.window = None
+        self.window.destroy()

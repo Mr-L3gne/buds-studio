@@ -159,6 +159,27 @@ class WindowIdleTest(unittest.TestCase):
         self.window.nav.push_by_tag("about")
         self.assertIn("AboutPage", calls)  # atualiza ao aparecer
 
+    def test_close_destroys_window_and_releases_services(self):
+        from gi.repository import Adw
+
+        self.window.window.present()
+        dialog = Adw.Dialog()
+        closed = []
+        dialog.connect("closed", lambda *_: closed.append(1))
+        dialog.present(self.window.window)
+        # Com um diálogo aberto, o libadwaita fecha só o diálogo ("closed": o diagnóstico solta
+        # o sinal "packet" do fone); o segundo close fecha a janela.
+        self.window.window.close()
+        self.assertEqual(closed, [1])
+        self.assertIsNotNone(self.app.window)
+        self.window.window.close()
+        self.assertIsNone(self.app.window)
+        # Nenhum handler das páginas fica preso aos serviços.
+        for page in self.window.pages:
+            self.assertEqual(page._service_handlers, [])
+        self.transport.on_data(status_with_battery(60, 61))  # não pode tocar na janela destruída
+        self.app.system_eq.emit("changed")
+
 
 if __name__ == "__main__":
     unittest.main()
