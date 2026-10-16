@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Diálogo "Diagnóstico": pacotes enviados (→) e recebidos (←) em hexadecimal. -->
+<interface domain="buds-studio">
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.5"/>
+  <object class="AdwDialog" id="dialog">
+    <property name="title" translatable="yes">Diagnostics</property>
+    <property name="content-width">820</property>
+    <property name="content-height">600</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <child type="start">
+              <object class="GtkToggleButton" id="pause_button">
+                <property name="icon-name">media-playback-pause-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Pause</property>
+              </object>
+            </child>
+            <child type="end">
+              <object class="GtkButton" id="copy_button">
+                <property name="icon-name">edit-copy-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Copy all</property>
+              </object>
+            </child>
+            <child type="end">
+              <object class="GtkButton" id="clear_button">
+                <property name="icon-name">edit-clear-all-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Clear</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <property name="content">
+          <object class="GtkScrolledWindow" id="scroller">
+            <property name="vexpand">True</property>
+            <child>
+              <object class="GtkTextView" id="log_view">
+                <property name="editable">False</property>
+                <property name="monospace">True</property>
+                <property name="wrap-mode">char</property>
+                <style>
+                  <class name="packet-log"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </object>
+</interface>

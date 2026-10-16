@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Qualidade e efeitos sonoros: Equalizador, Equalizador do computador (extra) e Teste de ajuste. -->
+<interface domain="buds-studio">
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.7"/>
+  <object class="AdwNavigationPage" id="page">
+    <property name="title" translatable="yes">Sound quality and effects</property>
+    <property name="tag">sound</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" id="header">
+            
+          </object>
+        </child>
+        
+        <property name="content">
+          <object class="AdwPreferencesPage" id="prefs">
+            <child>
+  <object class="AdwPreferencesGroup" id="eq_menu_group">
+    
+    
+    
+    <child>
+  <object class="AdwActionRow" id="eq_row">
+    <property name="title" translatable="yes">Equalizer</property>
+    
+    <property name="activatable">True</property>
+    <property name="action-name">navigation.push</property>
+    <property name="action-target">'equalizer'</property>
+    
+    <child type="suffix"><object class="GtkImage"><property name="icon-name">go-next-symbolic</property></object></child>
+  </object>
+</child><child>
+  <object class="AdwActionRow" id="system_eq_row">
+    <property name="title" translatable="yes">Computer equalizer</property>
+    <property name="subtitle" translatable="yes">Software equalizer on this computer, added to the earbuds equalizer</property>
+    <property name="activatable">True</property>
+    <property name="action-name">navigation.push</property>
+    <property name="action-target">'system-eq'</property>
+    
+    <child type="suffix"><object class="GtkImage"><property name="icon-name">go-next-symbolic</property></object></child>
+  </object>
+</child>
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="fit_group">
+    
+    
+    
+    <child><object class="AdwActionRow" id="fit_row"><property name="title" translatable="yes">Earbud fit test</property><property name="subtitle" translatable="yes">Check your earbud fit to make sure you get the best sound and noise canceling. Wear both earbuds.</property><child type="suffix"><object class="GtkButton" id="fit_button"><property name="label" translatable="yes">Start</property><property name="valign">center</property><style><class name="suggested-action"/></style></object></child></object></child><child>
+  <object class="AdwActionRow" id="fit_result_row">
+    <property name="title" translatable="yes">Result</property>
+    
+    
+  </object>
+</child>
+  </object>
+</child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </object>
+</interface>

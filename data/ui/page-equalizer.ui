@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Equalizador: lista de presets (opção única), preenchida pelo código. -->
+<interface domain="buds-studio">
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.7"/>
+  <object class="AdwNavigationPage" id="page">
+    <property name="title" translatable="yes">Equalizer</property>
+    <property name="tag">equalizer</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" id="header">
+            
+          </object>
+        </child>
+        
+        <property name="content">
+          <object class="AdwPreferencesPage" id="prefs">
+            <child>
+  <object class="AdwPreferencesGroup" id="eq_group">
+    
+    <property name="description" translatable="yes">Applied instantly.</property>
+    
+    
+  </object>
+</child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </object>
+</interface>

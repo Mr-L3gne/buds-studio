@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="150" viewBox="0 0 240 150">
+  <!-- Ilustração própria e genérica de dois fones intra-auriculares (sem relação com arte da Samsung). -->
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#d9dbe0"/>
+    </linearGradient>
+  </defs>
+  <g stroke="#9a9ca3" stroke-width="2">
+    <ellipse cx="78" cy="70" rx="40" ry="44" fill="url(#g)"/>
+    <ellipse cx="62" cy="62" rx="14" ry="16" fill="#c4c7ce"/>
+    <ellipse cx="162" cy="70" rx="40" ry="44" fill="url(#g)"/>
+    <ellipse cx="178" cy="62" rx="14" ry="16" fill="#c4c7ce"/>
+  </g>
+  <ellipse cx="78" cy="136" rx="34" ry="5" fill="#000" opacity="0.08"/>
+  <ellipse cx="162" cy="136" rx="34" ry="5" fill="#000" opacity="0.08"/>
+</svg>

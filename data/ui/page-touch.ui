@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Controles de toque, na ordem do app original. -->
+<interface domain="buds-studio">
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.7"/>
+  <object class="AdwNavigationPage" id="page">
+    <property name="title" translatable="yes">Touch controls</property>
+    <property name="tag">touch</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" id="header">
+            
+          </object>
+        </child>
+        
+        <property name="content">
+          <object class="AdwPreferencesPage" id="prefs">
+            <child>
+  <object class="AdwPreferencesGroup" id="touch_group">
+    
+    
+    
+    <child>
+  <object class="AdwSwitchRow" id="touch_lock_row">
+    <property name="title" translatable="yes">Touch controls</property>
+    <property name="subtitle" translatable="yes">Turn off to block touches</property>
+  </object>
+</child>
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="gestures_group">
+    <property name="title" translatable="yes">Media controls</property>
+    
+    
+    <child>
+  <object class="AdwSwitchRow" id="gesture_tap">
+    <property name="title" translatable="yes">Play or pause track</property>
+    <property name="subtitle" translatable="yes">Tap</property>
+  </object>
+</child><child>
+  <object class="AdwSwitchRow" id="gesture_double_tap">
+    <property name="title" translatable="yes">Play next track</property>
+    <property name="subtitle" translatable="yes">Double tap</property>
+  </object>
+</child><child>
+  <object class="AdwSwitchRow" id="gesture_triple_tap">
+    <property name="title" translatable="yes">Play previous track</property>
+    <property name="subtitle" translatable="yes">Triple tap</property>
+  </object>
+</child><child>
+  <object class="AdwActionRow" id="hold_row">
+    <property name="title" translatable="yes">Touch and hold</property>
+    
+    <property name="activatable">True</property>
+    <property name="action-name">navigation.push</property>
+    <property name="action-target">'touch-hold'</property>
+    <child type="suffix"><object class="GtkSwitch" id="gesture_touch_and_hold"><property name="valign">center</property></object></child>
+    <child type="suffix"><object class="GtkImage"><property name="icon-name">go-next-symbolic</property></object></child>
+  </object>
+</child>
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="calls_group">
+    <property name="title" translatable="yes">Call controls</property>
+    
+    
+    <child>
+  <object class="AdwSwitchRow" id="gesture_calls_double_tap">
+    <property name="title" translatable="yes">Answer call or end call</property>
+    <property name="subtitle" translatable="yes">Double tap</property>
+  </object>
+</child><child>
+  <object class="AdwSwitchRow" id="gesture_calls_touch_and_hold">
+    <property name="title" translatable="yes">Decline call</property>
+    <property name="subtitle" translatable="yes">Touch and hold</property>
+  </object>
+</child>
+  </object>
+</child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </object>
+</interface>

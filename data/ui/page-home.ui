@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Tela inicial, na ordem do app original: cabeçalho com bateria, controle de ruído e cartões de seções. Os extras ficam em 'Recursos do Linux', no fim. -->
+<interface domain="buds-studio">
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.7"/>
+  <menu id="main_menu">
+    <section>
+      <item><attribute name="label" translatable="yes">Settings</attribute><attribute name="action">app.preferences</attribute></item>
+      <item><attribute name="label" translatable="yes">Search for earbuds</attribute><attribute name="action">win.refresh</attribute></item>
+    </section>
+    <section>
+      <item><attribute name="label" translatable="yes">About Buds Studio</attribute><attribute name="action">app.about</attribute></item>
+      <item><attribute name="label" translatable="yes">Quit</attribute><attribute name="action">app.quit</attribute></item>
+    </section>
+  </menu>
+  <object class="AdwNavigationPage" id="page">
+    <property name="title" translatable="yes">Buds Studio</property>
+    <property name="tag">home</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" id="header">
+            <property name="title-widget">
+  <object class="GtkMenuButton" id="device_selector">
+    <property name="always-show-arrow">True</property>
+    <property name="tooltip-text" translatable="yes">Devices</property>
+    <style><class name="flat"/><class name="device-selector"/></style>
+  </object>
+</property>
+<child type="end">
+  <object class="GtkMenuButton" id="menu_button">
+    <property name="icon-name">open-menu-symbolic</property>
+    <property name="menu-model">main_menu</property>
+    <property name="primary">True</property>
+    <property name="tooltip-text" translatable="yes">Main menu</property>
+  </object>
+</child>
+          </object>
+        </child>
+        <child type="top">
+  <object class="AdwBanner" id="banner"><property name="revealed">False</property></object>
+</child>
+        <property name="content">
+          <object class="AdwPreferencesPage" id="prefs">
+            <child>
+  <object class="AdwPreferencesGroup" id="header_group">
+    <child>
+      <object class="GtkBox" id="device_header">
+        <property name="orientation">vertical</property>
+        <style><class name="card"/><class name="device-header"/></style>
+        <child><object class="GtkBox" id="device_illustration"><property name="halign">center</property><style><class name="device-illustration"/></style></object></child>
+        <child><object class="GtkLabel" id="device_name_label"><property name="wrap">True</property><property name="justify">center</property><style><class name="device-name"/></style></object></child>
+        <child><object class="GtkLabel" id="device_status_label"><style><class name="device-status"/></style></object></child>
+        <child><object class="GtkLabel" id="experimental_label"><property name="label" translatable="yes">Experimental</property><property name="halign">center</property><property name="visible">False</property><style><class name="experimental-badge"/></style></object></child>
+        <child><object class="GtkBox" id="battery_box"><property name="homogeneous">True</property><style><class name="battery-row"/></style>
+          <child>
+  <object class="GtkBox" id="battery_left_box">
+    <property name="orientation">vertical</property>
+    <property name="hexpand">True</property>
+    <style><class name="battery-item"/></style>
+    <child><object class="GtkLabel" id="battery_left_label"><style><class name="battery-percent"/><class name="numeric"/></style></object></child>
+    <child><object class="GtkLevelBar" id="battery_left_bar"><property name="max-value">100</property><style><class name="battery-bar"/></style></object></child>
+    <child><object class="GtkBox"><property name="halign">center</property><property name="spacing">4</property>
+      <child><object class="GtkImage" id="battery_left_icon"><property name="icon-name">battery-missing-symbolic</property></object></child>
+      <child><object class="GtkLabel" id="battery_left_caption"><property name="ellipsize">end</property><property name="label" translatable="yes">Left</property><style><class name="battery-caption"/></style></object></child>
+    </object></child>
+  </object>
+</child><child>
+  <object class="GtkBox" id="battery_right_box">
+    <property name="orientation">vertical</property>
+    <property name="hexpand">True</property>
+    <style><class name="battery-item"/></style>
+    <child><object class="GtkLabel" id="battery_right_label"><style><class name="battery-percent"/><class name="numeric"/></style></object></child>
+    <child><object class="GtkLevelBar" id="battery_right_bar"><property name="max-value">100</property><style><class name="battery-bar"/></style></object></child>
+    <child><object class="GtkBox"><property name="halign">center</property><property name="spacing">4</property>
+      <child><object class="GtkImage" id="battery_right_icon"><property name="icon-name">battery-missing-symbolic</property></object></child>
+      <child><object class="GtkLabel" id="battery_right_caption"><property name="ellipsize">end</property><property name="label" translatable="yes">Right</property><style><class name="battery-caption"/></style></object></child>
+    </object></child>
+  </object>
+</child><child>
+  <object class="GtkBox" id="battery_case_box">
+    <property name="orientation">vertical</property>
+    <property name="hexpand">True</property>
+    <style><class name="battery-item"/></style>
+    <child><object class="GtkLabel" id="battery_case_label"><style><class name="battery-percent"/><class name="numeric"/></style></object></child>
+    <child><object class="GtkLevelBar" id="battery_case_bar"><property name="max-value">100</property><style><class name="battery-bar"/></style></object></child>
+    <child><object class="GtkBox"><property name="halign">center</property><property name="spacing">4</property>
+      <child><object class="GtkImage" id="battery_case_icon"><property name="icon-name">battery-missing-symbolic</property></object></child>
+      <child><object class="GtkLabel" id="battery_case_caption"><property name="ellipsize">end</property><property name="label" translatable="yes">Case</property><style><class name="battery-caption"/></style></object></child>
+    </object></child>
+  </object>
+</child>
+        </object></child>
+      </object>
+    </child>
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="quick_noise_group">
+    <child>
+      <object class="AdwToggleGroup" id="noise_toggle">
+        <property name="homogeneous">True</property>
+        <style><class name="noise-toggle"/></style>
+        <child><object class="AdwToggle"><property name="name">off</property><property name="label" translatable="yes">Off</property></object></child>
+        <child><object class="AdwToggle"><property name="name">ambient</property><property name="label" translatable="yes">Ambient sound</property></object></child>
+        <child><object class="AdwToggle"><property name="name">anc</property><property name="label" translatable="yes">Active noise canceling</property></object></child>
+      </object>
+    </child>
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="menu_control_group">
+    
+    
+    
+    <child>
+  <object class="AdwActionRow" id="sound_row">
+    <property name="title" translatable="yes">Sound quality and effects</property>
+    
+    <property name="activatable">True</property>
+    <property name="action-name">navigation.push</property>
+    <property name="action-target">'sound'</property>
+    
+    <child type="suffix"><object class="GtkImage"><property name="icon-name">go-next-symbolic</property></object></child>
+  </object>
+</child><child>
+  <object class="AdwActionRow" id="touch_row">
+    <property name="title" translatable="yes">Touch controls</property>
+    
+    <property name="activatable">True</property>
+    <property name="action-name">navigation.push</property>
+    <property name="action-target">'touch'</property>
+    <child type="suffix"><object class="GtkSwitch" id="touch_switch"><property name="valign">center</property></object></child>
+    <child type="suffix"><object class="GtkImage"><property name="icon-name">go-next-symbolic</property></object></child>
+  </object>
+</child>
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="menu_features_group">
+    
+    
+    
+    <child>
+  <object class="AdwActionRow" id="connections_row">
+    <property name="title" translatable="yes">Manage connections</property>
+    
+    <property name="activatable">True</property>
+    <property name="action-name">navigation.push</property>
+    <property name="action-target">'connections'</property>
+    
+    <child type="suffix"><object class="GtkImage"><property name="icon-name">go-next-symbolic</property></object></child>
+  </object>
+</child><child>
+  <object class="AdwActionRow" id="advanced_row">
+    <property name="title" translatable="yes">Advanced features</property>
+    
+    <property name="activatable">True</property>
+    <property name="action-name">navigation.push</property>
+    <property name="action-target">'advanced'</property>
+    
+    <child type="suffix"><object class="GtkImage"><property name="icon-name">go-next-symbolic</property></object></child>
+  </object>
+</child>
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="accessibility_group">
+    
+    
+    
+    <child>
+  <object class="AdwActionRow" id="accessibility_row">
+    <property name="title" translatable="yes">Accessibility</property>
+    
+    <property name="activatable">True</property>
+    <property name="action-name">navigation.push</property>
+    <property name="action-target">'accessibility'</property>
+    
+    <child type="suffix"><object class="GtkImage"><property name="icon-name">go-next-symbolic</property></object></child>
+  </object>
+</child>
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="other_apps_group">
+    
+    
+    
+    <child>
+  <object class="AdwActionRow" id="find_row">
+    <property name="title" translatable="yes">Find My earbuds</property>
+    
+    <property name="activatable">True</property>
+    <property name="action-name">navigation.push</property>
+    <property name="action-target">'find'</property>
+    
+    <child type="suffix"><object class="GtkImage"><property name="icon-name">go-next-symbolic</property></object></child>
+  </object>
+</child>
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="earbuds_group">
+    
+    
+    
+    <child>
+  <object class="AdwActionRow" id="about_row">
+    <property name="title" translatable="yes">About earbuds</property>
+    
+    <property name="activatable">True</property>
+    <property name="action-name">navigation.push</property>
+    <property name="action-target">'about'</property>
+    
+    <child type="suffix"><object class="GtkImage"><property name="icon-name">go-next-symbolic</property></object></child>
+  </object>
+</child>
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="linux_group">
+    <property name="title" translatable="yes">Linux features</property>
+    <property name="description" translatable="yes">Features of Buds Studio that the original app does not have</property>
+    
+    <child>
+  <object class="AdwActionRow" id="linux_audio_row">
+    <property name="title" translatable="yes">Bluetooth audio</property>
+    <property name="subtitle" translatable="yes">Audio output, music or headset mode, codec</property>
+    <property name="activatable">True</property>
+    <property name="action-name">navigation.push</property>
+    <property name="action-target">'linux-audio'</property>
+    
+    <child type="suffix"><object class="GtkImage"><property name="icon-name">go-next-symbolic</property></object></child>
+  </object>
+</child><child>
+  <object class="AdwActionRow" id="profiles_row">
+    <property name="title" translatable="yes">Profiles</property>
+    <property name="subtitle" translatable="yes">Save and apply combinations of settings</property>
+    <property name="activatable">True</property>
+    <property name="action-name">navigation.push</property>
+    <property name="action-target">'profiles'</property>
+    
+    <child type="suffix"><object class="GtkImage"><property name="icon-name">go-next-symbolic</property></object></child>
+  </object>
+</child><child><object class="AdwComboRow" id="quick_profile_row"><property name="title" translatable="yes">Apply profile</property></object></child><child><object class="AdwActionRow" id="diagnostics_row"><property name="title" translatable="yes">Diagnostics (packets)</property><property name="subtitle" translatable="yes">Packets sent and received, in hex</property><property name="activatable">True</property><property name="action-name">win.diagnostics</property><child type="suffix"><object class="GtkImage"><property name="icon-name">go-next-symbolic</property></object></child></object></child>
+  </object>
+</child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </object>
+</interface>

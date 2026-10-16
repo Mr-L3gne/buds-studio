@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Gerenciar conexões: conexão do app com o fone. -->
+<interface domain="buds-studio">
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.7"/>
+  <object class="AdwNavigationPage" id="page">
+    <property name="title" translatable="yes">Manage connections</property>
+    <property name="tag">connections</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" id="header">
+            
+          </object>
+        </child>
+        
+        <property name="content">
+          <object class="AdwPreferencesPage" id="prefs">
+            <child>
+  <object class="AdwPreferencesGroup" id="connection_group">
+    
+    
+    
+    <child>
+  <object class="AdwActionRow" id="connection_row">
+    <property name="title" translatable="yes">Connection</property>
+    
+    <child type="suffix"><object class="GtkButton" id="connect_button"><property name="label" translatable="yes">Connect</property><property name="valign">center</property></object></child>
+  </object>
+</child><child>
+  <object class="AdwSwitchRow" id="reconnect_row">
+    <property name="title" translatable="yes">Reconnect automatically</property>
+    <property name="subtitle" translatable="yes">Connect again when the earbuds turn on</property>
+  </object>
+</child>
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="forget_group">
+    
+    <property name="description" translatable="yes">The earbuds stay paired with this computer.</property>
+    
+    <child><object class="AdwButtonRow" id="forget_row"><property name="title" translatable="yes">Remove from Buds Studio</property><style><class name="destructive-action"/></style></object></child>
+  </object>
+</child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </object>
+</interface>

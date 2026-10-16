@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.mr_l3gne.BudsStudio</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Buds Studio</name>
+  <summary>Equalizer and settings for Galaxy Buds</summary>
+  <summary xml:lang="pt-BR">Equalizador e ajustes dos Galaxy Buds</summary>
+  <description>
+    <p>
+      Change the equalizer preset, noise control, touch controls and other settings of
+      Galaxy Buds earbuds over Bluetooth, see the battery of each earbud and the case, and
+      switch between music and headset audio modes.
+    </p>
+    <p xml:lang="pt-BR">
+      Troque o preset de equalização, o controle de ruído, os controles de toque e outros ajustes
+      dos Galaxy Buds pelo Bluetooth, veja a bateria de cada fone e do estojo e alterne entre os
+      modos de áudio de música e headset.
+    </p>
+    <p>Fully tested with the Galaxy Buds Core. Independent project, not affiliated with Samsung.</p>
+    <p xml:lang="pt-BR">Testado com o Galaxy Buds Core. Projeto independente, sem vínculo com a Samsung.</p>
+  </description>
+  <url type="homepage">https://github.com/Mr-L3gne</url>
+  <launchable type="desktop-id">io.github.mr_l3gne.BudsStudio.desktop</launchable>
+  <developer id="io.github.mr_l3gne">
+    <name>Mr-L3gne</name>
+  </developer>
+  <branding>
+    <color type="primary" scheme_preference="light">#99c1f1</color>
+    <color type="primary" scheme_preference="dark">#1a5fb4</color>
+  </branding>
+  <content_rating type="oars-1.1"/>
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>touch</control>
+  </supports>
+  <releases>
+    <release version="1.0.0" date="2026-10-14">
+      <description>
+        <p>First release.</p>
+      </description>
+    </release>
+  </releases>
+</component>

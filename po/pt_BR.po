@@ -1,0 +1,1320 @@
+# Portuguese (Brazil) translation for Buds Studio.
+msgid ""
+msgstr "Project-Id-Version: buds-studio\nReport-Msgid-Bugs-To: \nPOT-Creation-Date: 2026-10-14 22:03-0300\nPO-Revision-Date: 2026-10-14 00:00-0300\nLast-Translator: Mr-L3gne\nLanguage-Team: Portuguese (Brazil)\nLanguage: pt_BR\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: src/budsstudio/cli/__init__.py:55
+#, python-brace-format
+msgid "{app}: equalizer and settings for Galaxy Buds. Without options, opens the window."
+msgstr "{app}: equalizador e ajustes dos Galaxy Buds. Sem opções, abre a janela."
+
+#: src/budsstudio/cli/__init__.py:58
+msgid "Keys for --set:"
+msgstr "Chaves para --set:"
+
+#: src/budsstudio/cli/__init__.py:61
+msgid "show battery, equalizer and noise control"
+msgstr "mostra bateria, equalizador e controle de ruído"
+
+#: src/budsstudio/cli/__init__.py:62
+msgid "show model, firmware and serial numbers"
+msgstr "mostra modelo, firmware e números de série"
+
+#: src/budsstudio/cli/__init__.py:63
+msgid "list paired compatible earbuds"
+msgstr "lista os fones compatíveis pareados"
+
+#: src/budsstudio/cli/__init__.py:64
+msgid "apply an equalizer preset"
+msgstr "aplica um preset de equalizador"
+
+#: src/budsstudio/cli/__init__.py:65
+msgid "noise control mode"
+msgstr "modo do controle de ruído"
+
+#: src/budsstudio/cli/__init__.py:66
+msgid "NAME"
+msgstr "NOME"
+
+#: src/budsstudio/cli/__init__.py:66
+msgid "apply a saved profile"
+msgstr "aplica um perfil salvo"
+
+#: src/budsstudio/cli/__init__.py:67
+msgid "list saved profiles"
+msgstr "lista os perfis salvos"
+
+#: src/budsstudio/cli/__init__.py:68
+msgid "KEY=VALUE"
+msgstr "CHAVE=VALOR"
+
+#: src/budsstudio/cli/__init__.py:68
+msgid "change another setting (see the list below)"
+msgstr "muda outro ajuste (veja a lista abaixo)"
+
+#: src/budsstudio/cli/__init__.py:69
+msgid "make the earbuds ring (take them out of your ears!)"
+msgstr "faz os fones tocarem (tire-os dos ouvidos!)"
+
+#: src/budsstudio/cli/__init__.py:70
+msgid "mute earbuds while finding"
+msgstr "silencia fones durante a busca"
+
+#: src/budsstudio/cli/__init__.py:71
+msgid "run the earbud fit test (wear both earbuds)"
+msgstr "faz o teste de encaixe (use os dois fones)"
+
+#: src/budsstudio/cli/__init__.py:72
+msgid "Bluetooth audio mode: music or headset"
+msgstr "modo de áudio Bluetooth: música ou headset"
+
+#: src/budsstudio/cli/__init__.py:73
+msgid "system equalizer (needs the app running)"
+msgstr "equalizador de sistema (precisa do app aberto)"
+
+#: src/budsstudio/cli/__init__.py:74
+msgid "NAME|ADDRESS"
+msgstr "NOME|ENDEREÇO"
+
+#: src/budsstudio/cli/__init__.py:74
+msgid "earbuds to use, by name or Bluetooth address"
+msgstr "fones a usar, pelo nome ou endereço Bluetooth"
+
+#: src/budsstudio/cli/__init__.py:75
+msgid "connect straight to this RFCOMM channel (diagnostics)"
+msgstr "conecta direto neste canal RFCOMM (diagnóstico)"
+
+#: src/budsstudio/cli/__init__.py:76
+msgid "seconds to wait (default: 15)"
+msgstr "segundos de espera (padrão: 15)"
+
+#: src/budsstudio/cli/__init__.py:77
+msgid "JSON output for --status, --info and --list"
+msgstr "saída em JSON para --status, --info e --list"
+
+#: src/budsstudio/cli/__init__.py:78
+msgid "print packets sent and received in hex"
+msgstr "mostra os pacotes enviados e recebidos em hexadecimal"
+
+#: src/budsstudio/cli/__init__.py:79
+msgid "start minimized in the background"
+msgstr "inicia minimizado em segundo plano"
+
+#: src/budsstudio/cli/__init__.py:80
+msgid "show the version"
+msgstr "mostra a versão"
+
+#: src/budsstudio/cli/__init__.py:81
+msgid "show this help"
+msgstr "mostra esta ajuda"
+
+#: src/budsstudio/cli/__init__.py:95
+#, python-brace-format
+msgid "Use on or off, not “{value}”"
+msgstr "Use on ou off, não “{value}”"
+
+#: src/budsstudio/cli/runner.py:68
+#, python-brace-format
+msgid "error: {message}"
+msgstr "erro: {message}"
+
+#: src/budsstudio/cli/runner.py:91
+msgid "No paired compatible earbuds named or with address {address}"
+msgstr "Nenhum fone compatível pareado com o nome ou endereço {address}"
+
+#: src/budsstudio/cli/runner.py:112
+msgid "Could not connect to the earbuds"
+msgstr "Não foi possível conectar aos fones"
+
+#: src/budsstudio/cli/runner.py:118
+msgid "Timed out waiting for the earbuds"
+msgstr "Tempo esgotado esperando os fones"
+
+#: src/budsstudio/cli/runner.py:135
+#, python-brace-format
+msgid "Equalizer: {value}"
+msgstr "Equalizador: {value}"
+
+#: src/budsstudio/cli/runner.py:138
+#, python-brace-format
+msgid "Noise control: {value}"
+msgstr "Controle de ruído: {value}"
+
+#: src/budsstudio/cli/runner.py:149
+#, python-brace-format
+msgid "Mute: left {left}, right {right}"
+msgstr "Silenciar: esquerdo {left}, direito {right}"
+
+#: src/budsstudio/cli/runner.py:163
+msgid "Confirmed by the earbuds"
+msgstr "Confirmado pelos fones"
+
+#: src/budsstudio/cli/runner.py:167
+msgid "Sent (the earbuds sent no confirmation)"
+msgstr "Enviado (os fones não mandaram confirmação)"
+
+#: src/budsstudio/cli/runner.py:209
+msgid "charging"
+msgstr "carregando"
+
+#: src/budsstudio/cli/runner.py:211
+msgid "in ear"
+msgstr "no ouvido"
+
+#: src/budsstudio/cli/runner.py:211
+msgid "out of ear"
+msgstr "fora do ouvido"
+
+#: src/budsstudio/cli/runner.py:215
+msgid "Earbuds"
+msgstr "Fones"
+
+#: src/budsstudio/cli/runner.py:215 src/budsstudio/cli/runner.py:270
+msgid "experimental"
+msgstr "experimental"
+
+#: src/budsstudio/cli/runner.py:216
+msgid "Battery"
+msgstr "Bateria"
+
+#: src/budsstudio/cli/runner.py:216 src/budsstudio/cli/runner.py:236
+#: src/budsstudio/cli/runner.py:242 src/budsstudio/cli/runner.py:273
+#: src/budsstudio/cli/runner.py:274
+msgid "L"
+msgstr "E"
+
+#: src/budsstudio/cli/runner.py:217 src/budsstudio/cli/runner.py:236
+#: src/budsstudio/cli/runner.py:243 src/budsstudio/cli/runner.py:273
+#: src/budsstudio/cli/runner.py:274
+msgid "R"
+msgstr "D"
+
+#: src/budsstudio/cli/runner.py:218
+msgid "case"
+msgstr "estojo"
+
+#: src/budsstudio/cli/runner.py:221 src/budsstudio/ui/app.py:501
+#: data/ui/page-equalizer.ui:7 data/ui/page-sound.ui:26
+msgid "Equalizer"
+msgstr "Equalizador"
+
+#: src/budsstudio/cli/runner.py:223 src/budsstudio/ui/app.py:506
+msgid "Noise control"
+msgstr "Controle de ruído"
+
+#: src/budsstudio/cli/runner.py:225
+msgid "Balance"
+msgstr "Balanço"
+
+#: src/budsstudio/cli/runner.py:225
+msgid "left"
+msgstr "esquerda"
+
+#: src/budsstudio/cli/runner.py:225
+msgid "right"
+msgstr "direita"
+
+#: src/budsstudio/cli/runner.py:227 data/ui/page-labs.ui:26
+msgid "Gaming mode"
+msgstr "Modo de jogo"
+
+#: src/budsstudio/cli/runner.py:228
+msgid "Noise control with one earbud"
+msgstr "Controle de ruído com um fone"
+
+#: src/budsstudio/cli/runner.py:229
+msgid "Ambient sound during calls"
+msgstr "Som ambiente durante chamadas"
+
+#: src/budsstudio/cli/runner.py:230 data/ui/page-advanced.ui:31
+msgid "In-ear detection for calls"
+msgstr "Detecção de fone de ouvido para chamadas"
+
+#: src/budsstudio/cli/runner.py:231 data/ui/page-labs.ui:38
+msgid "Extra-high ambient volume"
+msgstr "Volume ambiente extra-alto"
+
+#: src/budsstudio/cli/runner.py:236
+msgid "Ambient volume"
+msgstr "Volume do som ambiente"
+
+#: src/budsstudio/cli/runner.py:239
+msgid "Touch"
+msgstr "Toques"
+
+#: src/budsstudio/cli/runner.py:242 data/ui/page-touch-hold.ui:7
+#: data/ui/page-touch.ui:53 data/ui/page-touch.ui:76
+msgid "Touch and hold"
+msgstr "Manter pressionado"
+
+#: src/budsstudio/cli/runner.py:245
+msgid "Noise control cycle"
+msgstr "Ciclo do controle de ruído"
+
+#: src/budsstudio/cli/runner.py:270
+msgid "Model"
+msgstr "Modelo"
+
+#: src/budsstudio/cli/runner.py:271 data/ui/page-about.ui:24
+msgid "Name"
+msgstr "Nome"
+
+#: src/budsstudio/cli/runner.py:272 data/ui/page-about.ui:45
+msgid "Bluetooth address"
+msgstr "Endereço Bluetooth"
+
+#: src/budsstudio/cli/runner.py:273
+msgid "Firmware"
+msgstr "Firmware"
+
+#: src/budsstudio/cli/runner.py:274 data/ui/page-about.ui:28
+msgid "Serial number"
+msgstr "Número de série"
+
+#: src/budsstudio/cli/runner.py:275 data/ui/page-about.ui:31
+#: data/ui/page-about.ui:38 data/ui/page-home.ui:89
+msgid "Case"
+msgstr "Base carregadora"
+
+#: src/budsstudio/cli/runner.py:275
+msgid "firmware"
+msgstr "firmware"
+
+#: src/budsstudio/cli/runner.py:275
+msgid "serial"
+msgstr "série"
+
+#: src/budsstudio/cli/runner.py:287
+msgid "No paired compatible earbuds."
+msgstr "Nenhum fone compatível pareado."
+
+#: src/budsstudio/cli/runner.py:291
+msgid "connected"
+msgstr "conectado"
+
+#: src/budsstudio/cli/runner.py:291
+msgid "disconnected"
+msgstr "desconectado"
+
+#: src/budsstudio/cli/runner.py:292
+msgid "in Buds Studio"
+msgstr "no Buds Studio"
+
+#: src/budsstudio/cli/runner.py:292
+msgid "not added"
+msgstr "não adicionado"
+
+#: src/budsstudio/cli/runner.py:299 data/ui/page-profiles.ui:33
+msgid "No saved profiles yet"
+msgstr "Nenhum perfil salvo ainda"
+
+#: src/budsstudio/cli/runner.py:305
+#, python-brace-format
+msgid "Profile “{name}” not found"
+msgstr "Perfil “{name}” não encontrado"
+
+#: src/budsstudio/cli/runner.py:307 src/budsstudio/ui/app.py:459
+#, python-brace-format
+msgid "Profile “{name}” applied"
+msgstr "Perfil “{name}” aplicado"
+
+#: src/budsstudio/cli/runner.py:309 src/budsstudio/ui/app.py:461
+#, python-brace-format
+msgid "not applied: {items}"
+msgstr "não aplicado: {items}"
+
+#: src/budsstudio/cli/runner.py:314
+msgid "Use --set KEY=VALUE"
+msgstr "Use --set CHAVE=VALOR"
+
+#: src/budsstudio/cli/runner.py:320
+#, python-brace-format
+msgid "Balance: {value}"
+msgstr "Balanço: {value}"
+
+#: src/budsstudio/cli/runner.py:331
+#, python-brace-format
+msgid "{key}: {value}"
+msgstr "{key}: {value}"
+
+#: src/budsstudio/cli/runner.py:335
+#, python-brace-format
+msgid "{key} sent: {value}"
+msgstr "{key} enviado: {value}"
+
+#: src/budsstudio/cli/runner.py:339
+#, python-brace-format
+msgid "Ambient volume sent: L {left} · R {right}"
+msgstr "Volume do som ambiente enviado: E {left} · D {right}"
+
+#: src/budsstudio/cli/runner.py:345
+#, python-brace-format
+msgid "Unknown gesture: {name}"
+msgstr "Gesto desconhecido: {name}"
+
+#: src/budsstudio/cli/runner.py:350
+msgid "Use noise or volume"
+msgstr "Use noise ou volume"
+
+#: src/budsstudio/cli/runner.py:355 src/budsstudio/services/device.py:238
+msgid "Touch settings not received yet"
+msgstr "Os ajustes de toque ainda não chegaram"
+
+#: src/budsstudio/cli/runner.py:367
+#, python-brace-format
+msgid "Unknown modes: {modes}"
+msgstr "Modos desconhecidos: {modes}"
+
+#: src/budsstudio/cli/runner.py:370
+#, python-brace-format
+msgid "Unknown key: {key}"
+msgstr "Chave desconhecida: {key}"
+
+#: src/budsstudio/cli/runner.py:376
+msgid "warning: the earbuds seem to be in someone's ears"
+msgstr "aviso: os fones parecem estar no ouvido de alguém"
+
+#: src/budsstudio/cli/runner.py:378
+msgid "Ringing. Stop with: buds-studio --find stop"
+msgstr "Tocando. Para parar: buds-studio --find stop"
+
+#: src/budsstudio/cli/runner.py:381
+msgid "Stopped"
+msgstr "Parado"
+
+#: src/budsstudio/cli/runner.py:386 src/budsstudio/services/device.py:213
+msgid "This model does not support this feature"
+msgstr "Este modelo não tem esta função"
+
+#: src/budsstudio/cli/runner.py:389 src/budsstudio/ui/pages.py:302
+#: src/budsstudio/ui/pages.py:459
+#, python-brace-format
+msgid "Left: {left} · Right: {right}"
+msgstr "Esquerdo: {left} · Direito: {right}"
+
+#: src/budsstudio/cli/runner.py:394 src/budsstudio/ui/pages.py:294
+msgid "Testing… keep still"
+msgstr "Testando… fique parado"
+
+#: src/budsstudio/cli/runner.py:395
+msgid "No result from the earbuds"
+msgstr "Os fones não mandaram resultado"
+
+#: src/budsstudio/cli/runner.py:400
+msgid "PipeWire tools are not available"
+msgstr "As ferramentas do PipeWire não estão disponíveis"
+
+#: src/budsstudio/cli/runner.py:405 src/budsstudio/cli/runner.py:412
+msgid "The earbuds audio device was not found in PipeWire"
+msgstr "O dispositivo de áudio dos fones não foi encontrado no PipeWire"
+
+#: src/budsstudio/cli/runner.py:406
+#, python-brace-format
+msgid "Audio mode: {profile} · codec {codec}"
+msgstr "Modo de áudio: {profile} · codec {codec}"
+
+#: src/budsstudio/cli/runner.py:423
+msgid "The system equalizer only runs while Buds Studio is open (window or tray). Open it first, e.g. with: buds-studio --background"
+msgstr "O equalizador de sistema só funciona com o Buds Studio aberto (janela ou bandeja). Abra-o antes, por exemplo com: buds-studio --background"
+
+#: src/budsstudio/cli/runner.py:429
+#, python-brace-format
+msgid "System equalizer: {state}"
+msgstr "Equalizador de sistema: {state}"
+
+#: src/budsstudio/cli/runner.py:434
+msgid "on"
+msgstr "ligado"
+
+#: src/budsstudio/cli/runner.py:434
+msgid "off"
+msgstr "desligado"
+
+#: src/budsstudio/services/device.py:205
+#: src/budsstudio/transport/connection.py:96
+#: src/budsstudio/transport/link.py:45
+msgid "Not connected to the earbuds"
+msgstr "Sem conexão com os fones"
+
+#: src/budsstudio/services/device.py:273
+#, python-brace-format
+msgid "Ambient volume must be between 0 and {max}"
+msgstr "O volume do som ambiente deve ficar entre 0 e {max}"
+
+#: src/budsstudio/services/device.py:276 src/budsstudio/services/device.py:294
+msgid "Ambient settings not received yet"
+msgstr "Os ajustes de som ambiente ainda não chegaram"
+
+#: src/budsstudio/services/device.py:353
+msgid "Put both earbuds in your ears first"
+msgstr "Coloque os dois fones nos ouvidos antes"
+
+#: src/budsstudio/services/notifications.py:42
+msgid "Earbuds connected"
+msgstr "Fones conectados"
+
+#: src/budsstudio/services/notifications.py:44
+msgid "Earbuds disconnected"
+msgstr "Fones desconectados"
+
+#: src/budsstudio/services/notifications.py:55
+msgid "Left earbud"
+msgstr "Fone esquerdo"
+
+#: src/budsstudio/services/notifications.py:56
+msgid "Right earbud"
+msgstr "Fone direito"
+
+#: src/budsstudio/services/notifications.py:66 data/ui/preferences.ui:97
+msgid "Low battery"
+msgstr "Bateria baixa"
+
+#: src/budsstudio/services/notifications.py:67
+msgid "{device} — {side}: {level}%"
+msgstr "{device} — {side}: {level}%"
+
+#: src/budsstudio/services/profiles.py:38
+msgid "Invalid profile"
+msgstr "Perfil inválido"
+
+#: src/budsstudio/services/profiles.py:48
+#, python-brace-format
+msgid "Invalid value in profile “{name}”"
+msgstr "Valor inválido no perfil “{name}”"
+
+#: src/budsstudio/services/profiles.py:118
+#, python-brace-format
+msgid "Could not read the file: {error}"
+msgstr "Não foi possível ler o arquivo: {error}"
+
+#: src/budsstudio/services/profiles.py:139
+#: src/budsstudio/services/profiles.py:142
+msgid "This is not a Buds Studio profile file"
+msgstr "Este não é um arquivo de perfis do Buds Studio"
+
+#: src/budsstudio/transport/bluez.py:47
+msgid "The earbuds did not answer (in the case, off or out of range?)"
+msgstr "Os fones não responderam (no estojo, desligados ou longe?)"
+
+#: src/budsstudio/transport/bluez.py:48
+msgid "Bluetooth is busy; try again"
+msgstr "O Bluetooth está ocupado; tente de novo"
+
+#: src/budsstudio/transport/bluez.py:49
+msgid "The earbuds do not offer the control service right now"
+msgstr "Os fones não oferecem o serviço de controle agora"
+
+#: src/budsstudio/transport/bluez.py:80
+#, python-brace-format
+msgid "System D-Bus unavailable: {error}"
+msgstr "D-Bus do sistema indisponível: {error}"
+
+#: src/budsstudio/transport/bluez.py:91
+#, python-brace-format
+msgid "BlueZ did not answer: {error}"
+msgstr "O BlueZ não respondeu: {error}"
+
+#: src/budsstudio/transport/bluez.py:166
+#, python-brace-format
+msgid "Could not register the RFCOMM profile: {error}"
+msgstr "Não foi possível registrar o perfil RFCOMM: {error}"
+
+#: src/budsstudio/transport/connection.py:183
+msgid "BlueZ closed the connection"
+msgstr "O BlueZ encerrou a conexão"
+
+#: src/budsstudio/transport/link.py:47
+msgid "Send queue is full"
+msgstr "A fila de envio está cheia"
+
+#: src/budsstudio/transport/link.py:92
+msgid "The earbuds closed the connection"
+msgstr "Os fones encerraram a conexão"
+
+#: src/budsstudio/transport/link.py:95
+msgid "Connection lost"
+msgstr "Conexão perdida"
+
+#: src/budsstudio/ui/app.py:72
+msgid "Buds Studio EQ"
+msgstr "Buds Studio EQ"
+
+#: src/budsstudio/ui/app.py:83
+#, python-brace-format
+msgid "Could not change the audio mode: {error}"
+msgstr "Não foi possível trocar o modo de áudio: {error}"
+
+#: src/budsstudio/ui/app.py:84
+#, python-brace-format
+msgid "System equalizer error: {error}"
+msgstr "Erro no equalizador de sistema: {error}"
+
+#: src/budsstudio/ui/app.py:314
+msgid "No paired compatible earbuds"
+msgstr "Nenhum fone compatível pareado"
+
+#: src/budsstudio/ui/app.py:389 src/budsstudio/ui/window.py:123
+#: data/ui/window.ui:69
+msgid "Add new device"
+msgstr "Adicionar novo aparelho"
+
+#: src/budsstudio/ui/app.py:391
+msgid "All paired compatible earbuds are already in Buds Studio. Pair new earbuds in the system Bluetooth settings first."
+msgstr "Todos os fones compatíveis pareados já estão no Buds Studio. Pareie novos fones nas configurações de Bluetooth do sistema antes."
+
+#: src/budsstudio/ui/app.py:393
+msgid "Choose earbuds already paired with this computer."
+msgstr "Escolha fones já pareados com este computador."
+
+#: src/budsstudio/ui/app.py:407
+msgid "Close"
+msgstr "Fechar"
+
+#: src/budsstudio/ui/app.py:417
+msgid "Remove {name}?"
+msgstr "Remover {name}?"
+
+#: src/budsstudio/ui/app.py:418
+msgid "Buds Studio disconnects and forgets these earbuds. They stay paired with this computer."
+msgstr "O Buds Studio desconecta e esquece estes fones. Eles continuam pareados com este computador."
+
+#: src/budsstudio/ui/app.py:420 src/budsstudio/ui/pages.py:315
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: src/budsstudio/ui/app.py:421
+msgid "Remove"
+msgstr "Remover"
+
+#: src/budsstudio/ui/app.py:451
+msgid "Connect the earbuds first"
+msgstr "Conecte os fones antes"
+
+#: src/budsstudio/ui/app.py:484 src/budsstudio/ui/pages.py:125
+#, python-brace-format
+msgid "L {left}% · R {right}%"
+msgstr "E {left}% · D {right}%"
+
+#: src/budsstudio/ui/app.py:486
+#, python-brace-format
+msgid "case {case}%"
+msgstr "estojo {case}%"
+
+#: src/budsstudio/ui/app.py:492 src/budsstudio/ui/pages.py:199
+#: src/budsstudio/ui/window.py:42
+msgid "No earbuds added"
+msgstr "Nenhum fone adicionado"
+
+#: src/budsstudio/ui/app.py:493
+msgid "Open Buds Studio"
+msgstr "Abrir o Buds Studio"
+
+#: src/budsstudio/ui/app.py:495 data/ui/page-home.ui:26 data/ui/window.ui:40
+msgid "Devices"
+msgstr "Aparelhos"
+
+#: src/budsstudio/ui/app.py:511 data/ui/page-home.ui:231
+#: data/ui/page-profiles.ui:7
+msgid "Profiles"
+msgstr "Perfis"
+
+#: src/budsstudio/ui/app.py:514 data/ui/page-home.ui:13
+msgid "Quit"
+msgstr "Sair"
+
+#: src/budsstudio/ui/app.py:528
+#, python-brace-format
+msgid "Could not change autostart: {error}"
+msgstr "Não foi possível mudar o início automático: {error}"
+
+#: src/budsstudio/ui/app.py:528
+msgid "denied"
+msgstr "negado"
+
+#: src/budsstudio/ui/app.py:531
+msgid "Keep the earbuds settings available"
+msgstr "Manter os ajustes dos fones à mão"
+
+#: src/budsstudio/ui/app.py:537
+#, python-brace-format
+msgid "Could not save preferences: {error}"
+msgstr "Não foi possível salvar as preferências: {error}"
+
+#: src/budsstudio/ui/app.py:565
+msgid "Equalizer and settings for Galaxy Buds on Linux. Independent project, not affiliated with Samsung."
+msgstr "Equalizador e ajustes dos Galaxy Buds no Linux. Projeto independente, sem vínculo com a Samsung."
+
+#: src/budsstudio/ui/dialogs.py:62
+msgid "Automatic (system)"
+msgstr "Automático (sistema)"
+
+#: src/budsstudio/ui/dialogs.py:69
+msgid "Follow system"
+msgstr "Seguir o sistema"
+
+#: src/budsstudio/ui/dialogs.py:69
+msgid "Light"
+msgstr "Claro"
+
+#: src/budsstudio/ui/dialogs.py:69
+msgid "Dark"
+msgstr "Escuro"
+
+#: src/budsstudio/ui/dialogs.py:114
+msgid "Restart Buds Studio to change the language"
+msgstr "Reinicie o Buds Studio para trocar o idioma"
+
+#: src/budsstudio/ui/dialogs.py:118
+msgid "Neutral (no image)"
+msgstr "Neutro (sem imagem)"
+
+#: src/budsstudio/ui/dialogs.py:124
+#, python-brace-format
+msgid "My image: {name}"
+msgstr "Minha imagem: {name}"
+
+#: src/budsstudio/ui/dialogs.py:142
+msgid "Images"
+msgstr "Imagens"
+
+#: src/budsstudio/ui/dialogs.py:147
+msgid "Choose a background image"
+msgstr "Escolher imagem de fundo"
+
+#: src/budsstudio/ui/labels.py:11
+msgid "Balanced"
+msgstr "Equilibrado"
+
+#: src/budsstudio/ui/labels.py:12
+msgid "Bass boost"
+msgstr "Mais graves"
+
+#: src/budsstudio/ui/labels.py:13
+msgid "Smooth"
+msgstr "Suave"
+
+#: src/budsstudio/ui/labels.py:14
+msgid "Dynamic"
+msgstr "Dinâmico"
+
+#: src/budsstudio/ui/labels.py:15 data/ui/diagnostics.ui:29
+msgid "Clear"
+msgstr "Nítido"
+
+#: src/budsstudio/ui/labels.py:16
+msgid "Treble boost"
+msgstr "Mais agudos"
+
+#: src/budsstudio/ui/labels.py:22 src/budsstudio/ui/pages.py:312
+#: data/ui/page-home.ui:103 data/ui/page-touch-hold.ui:50
+msgid "Off"
+msgstr "Desativado"
+
+#: src/budsstudio/ui/labels.py:23 data/ui/page-home.ui:105
+#: data/ui/page-touch-hold.ui:40
+msgid "Active noise canceling"
+msgstr "Cancelamento de ruído ativo"
+
+#: src/budsstudio/ui/labels.py:24 data/ui/page-home.ui:104
+#: data/ui/page-touch-hold.ui:45
+msgid "Ambient sound"
+msgstr "Som ambiente"
+
+#: src/budsstudio/ui/labels.py:30
+msgid "Voice assistant (phone)"
+msgstr "Assistente de voz (celular)"
+
+#: src/budsstudio/ui/labels.py:31 data/ui/page-touch-hold.ui:35
+msgid "Switch noise controls"
+msgstr "Alternar controles de ruído"
+
+#: src/budsstudio/ui/labels.py:32
+msgid "Volume"
+msgstr "Volume"
+
+#: src/budsstudio/ui/labels.py:33
+msgid "Interpreter (phone)"
+msgstr "Intérprete (celular)"
+
+#: src/budsstudio/ui/labels.py:34
+msgid "Mindfulness (phone)"
+msgstr "Mindfulness (celular)"
+
+#: src/budsstudio/ui/labels.py:35
+msgid "Spotify (phone)"
+msgstr "Spotify (celular)"
+
+#: src/budsstudio/ui/labels.py:41
+msgid "Disconnected"
+msgstr "Desconectado"
+
+#: src/budsstudio/ui/labels.py:42
+msgid "Connecting…"
+msgstr "Conectando…"
+
+#: src/budsstudio/ui/labels.py:43
+msgid "Connected"
+msgstr "Conectado"
+
+#: src/budsstudio/ui/labels.py:44
+msgid "Waiting for the earbuds"
+msgstr "Aguardando os fones"
+
+#: src/budsstudio/ui/labels.py:50
+msgid "Good fit"
+msgstr "Bom encaixe"
+
+#: src/budsstudio/ui/labels.py:52
+msgid "Too much noise to check"
+msgstr "Barulho demais para testar"
+
+#: src/budsstudio/ui/labels.py:53
+msgid "Poor fit"
+msgstr "Encaixe ruim"
+
+#: src/budsstudio/ui/pages.py:196
+msgid "No earbuds"
+msgstr "Sem fones"
+
+#: src/budsstudio/ui/pages.py:206
+msgid "This model uses a different protocol and is not supported"
+msgstr "Este modelo usa outro protocolo e não é suportado"
+
+#: src/budsstudio/ui/pages.py:210
+#, python-brace-format
+msgid "Experimental: {model} was not tested on real hardware. Only basic features are on."
+msgstr "Experimental: o {model} não foi testado em hardware real. Só as funções básicas estão ativas."
+
+#: src/budsstudio/ui/pages.py:312
+msgid "On"
+msgstr "Ativado"
+
+#: src/budsstudio/ui/pages.py:315 src/budsstudio/ui/pages.py:703
+#: data/ui/page-find.ui:24 data/ui/page-sound.ui:51
+msgid "Start"
+msgstr "Iniciar"
+
+#: src/budsstudio/ui/pages.py:403
+msgid "Active"
+msgstr "Ativo"
+
+#: src/budsstudio/ui/pages.py:403
+msgid "Waiting for the earbuds audio output"
+msgstr "Aguardando a saída de áudio dos fones"
+
+#: src/budsstudio/ui/pages.py:438
+msgid "Keep at least one gesture on"
+msgstr "Mantenha pelo menos um gesto ligado"
+
+#: src/budsstudio/ui/pages.py:482
+msgid "Volume down"
+msgstr "Diminuir volume"
+
+#: src/budsstudio/ui/pages.py:484
+msgid "Volume up"
+msgstr "Aumentar volume"
+
+#: src/budsstudio/ui/pages.py:518
+msgid "Choose at least two modes"
+msgstr "Escolha pelo menos dois modos"
+
+#: src/budsstudio/ui/pages.py:532
+#, python-brace-format
+msgid "Other ({value})"
+msgstr "Outro ({value})"
+
+#: src/budsstudio/ui/pages.py:576 data/ui/page-connections.ui:28
+msgid "Connect"
+msgstr "Conectar"
+
+#: src/budsstudio/ui/pages.py:576
+msgid "Disconnect"
+msgstr "Desconectar"
+
+#: src/budsstudio/ui/pages.py:703
+msgid "Stop"
+msgstr "Parar"
+
+#: src/budsstudio/ui/pages.py:758
+msgid "Music (A2DP)"
+msgstr "Música (A2DP)"
+
+#: src/budsstudio/ui/pages.py:758
+msgid "Headset with microphone (HFP)"
+msgstr "Headset com microfone (HFP)"
+
+#: src/budsstudio/ui/pages.py:776
+msgid "Could not use the earbuds as audio output: {error}"
+msgstr "Não foi possível usar os fones como saída de áudio: {error}"
+
+#: src/budsstudio/ui/pages.py:778
+#, python-brace-format
+msgid "Sound now plays through {name}"
+msgstr "O som agora sai pelo {name}"
+
+#: src/budsstudio/ui/pages.py:804
+msgid "These earbuds are the audio output"
+msgstr "Estes fones são a saída de áudio"
+
+#: src/budsstudio/ui/pages.py:804 data/ui/page-linux-audio.ui:24
+msgid "Send the computer sound to these earbuds"
+msgstr "Envia o som do computador para estes fones"
+
+#: src/budsstudio/ui/pages.py:805
+msgid "In use"
+msgstr "Em uso"
+
+#: src/budsstudio/ui/pages.py:805 data/ui/page-linux-audio.ui:24
+msgid "Use"
+msgstr "Usar"
+
+#: src/budsstudio/ui/pages.py:829
+msgid "Connect the earbuds to save their current settings"
+msgstr "Conecte os fones para salvar os ajustes atuais"
+
+#: src/budsstudio/ui/pages.py:837
+#, python-brace-format
+msgid "Profile “{name}” saved"
+msgstr "Perfil “{name}” salvo"
+
+#: src/budsstudio/ui/pages.py:847 data/ui/page-sound.ui:36
+#: data/ui/page-system-eq.ui:7 data/ui/page-system-eq.ui:26
+msgid "Computer equalizer"
+msgstr "Equalizador do computador"
+
+#: src/budsstudio/ui/pages.py:858
+msgid "Apply"
+msgstr "Aplicar"
+
+#: src/budsstudio/ui/pages.py:861
+msgid "Delete"
+msgstr "Excluir"
+
+#: src/budsstudio/ui/pages.py:872
+#, python-brace-format
+msgid "Profile “{name}” deleted"
+msgstr "Perfil “{name}” excluído"
+
+#: src/budsstudio/ui/pages.py:876
+msgid "Buds Studio profiles (JSON)"
+msgstr "Perfis do Buds Studio (JSON)"
+
+#: src/budsstudio/ui/pages.py:884
+msgid "There are no profiles to export"
+msgstr "Não há perfis para exportar"
+
+#: src/budsstudio/ui/pages.py:886 data/ui/page-profiles.ui:32
+msgid "Export profiles"
+msgstr "Exportar perfis"
+
+#: src/budsstudio/ui/pages.py:896
+msgid "Profiles exported"
+msgstr "Perfis exportados"
+
+#: src/budsstudio/ui/pages.py:903 data/ui/page-profiles.ui:31
+msgid "Import profiles"
+msgstr "Importar perfis"
+
+#: src/budsstudio/ui/pages.py:917
+#, python-brace-format
+msgid "{count} profile(s) imported"
+msgstr "{count} perfil(is) importado(s)"
+
+#: src/budsstudio/ui/window.py:125 data/ui/window.ui:83
+msgid "Remove devices"
+msgstr "Remover aparelhos"
+
+#: data/ui/diagnostics.ui:7
+msgid "Diagnostics"
+msgstr "Diagnóstico"
+
+#: data/ui/diagnostics.ui:17
+msgid "Pause"
+msgstr "Pausar"
+
+#: data/ui/diagnostics.ui:23
+msgid "Copy all"
+msgstr "Copiar tudo"
+
+#: data/ui/page-about.ui:7 data/ui/page-home.ui:204
+msgid "About earbuds"
+msgstr "Sobre os fones de ouvido"
+
+#: data/ui/page-about.ui:24
+msgid "Product name"
+msgstr "Nome do produto"
+
+#: data/ui/page-about.ui:31 data/ui/page-about.ui:38
+#: data/ui/page-accessibility.ui:26 data/ui/page-accessibility.ui:60
+#: data/ui/page-home.ui:65 data/ui/page-touch-hold.ui:21
+msgid "Left"
+msgstr "Esquerdo"
+
+#: data/ui/page-about.ui:31 data/ui/page-about.ui:38
+#: data/ui/page-accessibility.ui:37 data/ui/page-accessibility.ui:75
+#: data/ui/page-home.ui:77 data/ui/page-touch-hold.ui:28
+msgid "Right"
+msgstr "Direito"
+
+#: data/ui/page-about.ui:35
+msgid "Software information"
+msgstr "Informações do software"
+
+#: data/ui/page-about.ui:45
+msgid "Hardware revision"
+msgstr "Revisão de hardware"
+
+#: data/ui/page-accessibility.ui:7 data/ui/page-home.ui:170
+msgid "Accessibility"
+msgstr "Acessibilidade"
+
+#: data/ui/page-accessibility.ui:21
+msgid "Left/right sound balance"
+msgstr "Balanço de som da esq/dir"
+
+#: data/ui/page-accessibility.ui:48
+msgid "Noise controls with one earbud"
+msgstr "Controles de ruído com um fone"
+
+#: data/ui/page-accessibility.ui:49
+msgid "Normally, noise controls turn off when you use only one earbud. Turn this on to keep them running."
+msgstr "Normalmente, os controles de ruído são desativados quando você usa só um fone. Ative para mantê-los funcionando."
+
+#: data/ui/page-accessibility.ui:55
+msgid "Ambient sound volume"
+msgstr "Volume do som ambiente"
+
+#: data/ui/page-advanced.ui:7 data/ui/page-home.ui:153
+msgid "Advanced features"
+msgstr "Recursos avançados"
+
+#: data/ui/page-advanced.ui:26
+msgid "Use Ambient sound during calls"
+msgstr "Usar Som amb. durante chamadas"
+
+#: data/ui/page-advanced.ui:27
+msgid "Hearing your own voice when you’re on the phone can make long calls more comfortable, help you avoid unintentionally raising your voice, and relieve the feeling of ear pressure."
+msgstr "Ouvir a própria voz ao falar ao telefone pode tornar as chamadas longas mais confortáveis, ajudar a não elevar o tom de voz sem querer e aliviar a sensação de pressão auricular."
+
+#: data/ui/page-advanced.ui:32
+msgid "Play calls through your phone speaker when both earbuds are removed."
+msgstr "Reproduza chamadas pelo alto-falante do telefone quando ambos os fones de ouvido forem removidos."
+
+#: data/ui/page-advanced.ui:43 data/ui/page-labs.ui:7
+msgid "Labs"
+msgstr "Labs"
+
+#: data/ui/page-connections.ui:7 data/ui/page-home.ui:143
+msgid "Manage connections"
+msgstr "Gerenciar conexões"
+
+#: data/ui/page-connections.ui:26 data/ui/preferences.ui:29
+msgid "Connection"
+msgstr "Conexão"
+
+#: data/ui/page-connections.ui:32 data/ui/preferences.ui:32
+msgid "Reconnect automatically"
+msgstr "Reconectar automaticamente"
+
+#: data/ui/page-connections.ui:33 data/ui/preferences.ui:33
+msgid "Connect again when the earbuds turn on"
+msgstr "Conecta de novo quando os fones ligam"
+
+#: data/ui/page-connections.ui:40
+msgid "The earbuds stay paired with this computer."
+msgstr "Os fones continuam pareados com este computador."
+
+#: data/ui/page-connections.ui:42
+msgid "Remove from Buds Studio"
+msgstr "Remover do Buds Studio"
+
+#: data/ui/page-equalizer.ui:22
+msgid "Applied instantly."
+msgstr "Aplicado na hora."
+
+#: data/ui/page-find.ui:7 data/ui/page-home.ui:187
+msgid "Find My earbuds"
+msgstr "Buscar meus fones de ouvido"
+
+#: data/ui/page-find.ui:22
+msgid "Your earbuds will start beeping when you tap Start. The sound will gradually get louder. Make sure the earbuds are not in your ears or anyone else’s, as the sound could cause hearing damage. It stops by itself after 3 minutes."
+msgstr "Seus fones de ouvido começarão a emitir um sinal sonoro quando você tocar em Iniciar. O som aumentará gradualmente. Confira se os fones não estão no seu ouvido nem no de outra pessoa, pois o som alto pode prejudicar a audição. Ele para sozinho depois de 3 minutos."
+
+#: data/ui/page-find.ui:24
+msgid "Ring"
+msgstr "Tocar"
+
+#: data/ui/page-find.ui:26
+msgid "Mute left earbud"
+msgstr "Silenciar fone esquerdo"
+
+#: data/ui/page-find.ui:31
+msgid "Mute right earbud"
+msgstr "Silenciar fone direito"
+
+#: data/ui/page-home.ui:8
+msgid "Settings"
+msgstr "Configurações"
+
+#: data/ui/page-home.ui:9
+msgid "Search for earbuds"
+msgstr "Procurar fones"
+
+#: data/ui/page-home.ui:12
+msgid "About Buds Studio"
+msgstr "Sobre o Buds Studio"
+
+#: data/ui/page-home.ui:17
+msgid "Buds Studio"
+msgstr "Buds Studio"
+
+#: data/ui/page-home.ui:35
+msgid "Main menu"
+msgstr "Menu principal"
+
+#: data/ui/page-home.ui:54
+msgid "Experimental"
+msgstr "Experimental"
+
+#: data/ui/page-home.ui:116 data/ui/page-sound.ui:7
+msgid "Sound quality and effects"
+msgstr "Qualidade e efeitos sonoros"
+
+#: data/ui/page-home.ui:126 data/ui/page-touch.ui:7 data/ui/page-touch.ui:26
+msgid "Touch controls"
+msgstr "Controles de toque"
+
+#: data/ui/page-home.ui:216
+msgid "Linux features"
+msgstr "Recursos do Linux"
+
+#: data/ui/page-home.ui:217
+msgid "Features of Buds Studio that the original app does not have"
+msgstr "Funções do Buds Studio que o app original não tem"
+
+#: data/ui/page-home.ui:221 data/ui/page-linux-audio.ui:7
+msgid "Bluetooth audio"
+msgstr "Áudio Bluetooth"
+
+#: data/ui/page-home.ui:222
+msgid "Audio output, music or headset mode, codec"
+msgstr "Saída de áudio, modo música ou headset, codec"
+
+#: data/ui/page-home.ui:232
+msgid "Save and apply combinations of settings"
+msgstr "Salve e aplique combinações de ajustes"
+
+#: data/ui/page-home.ui:239
+msgid "Apply profile"
+msgstr "Aplicar perfil"
+
+#: data/ui/page-home.ui:239
+msgid "Diagnostics (packets)"
+msgstr "Diagnóstico (pacotes)"
+
+#: data/ui/page-home.ui:239
+msgid "Packets sent and received, in hex"
+msgstr "Pacotes enviados e recebidos, em hexadecimal"
+
+#: data/ui/page-labs.ui:22
+msgid "Check out these experimental features."
+msgstr "Confira estes recursos experimentais."
+
+#: data/ui/page-labs.ui:39
+msgid "Add an extra volume level so you can play ambient sound at a higher than normal volume."
+msgstr "Adiciona um nível de volume extra para que você possa reproduzir o som ambiente em um volume mais alto do que o normal."
+
+#: data/ui/page-labs.ui:50
+msgid "Hearing enhancements"
+msgstr "Melhorias de audição"
+
+#: data/ui/page-linux-audio.ui:24
+msgid "Use as audio output"
+msgstr "Usar como saída de áudio"
+
+#: data/ui/page-linux-audio.ui:29
+msgid "Music mode (A2DP) has the best quality but no microphone. Headset mode (HFP) enables the microphone for calls and Discord."
+msgstr "O modo música (A2DP) tem a melhor qualidade, mas sem microfone. O modo headset (HFP) liga o microfone para chamadas e Discord."
+
+#: data/ui/page-linux-audio.ui:31
+msgid "Audio mode"
+msgstr "Modo de áudio"
+
+#: data/ui/page-linux-audio.ui:33
+msgid "Codec"
+msgstr "Codec"
+
+#: data/ui/page-linux-audio.ui:39
+msgid "Switch automatically"
+msgstr "Trocar automaticamente"
+
+#: data/ui/page-linux-audio.ui:40
+msgid "Use headset mode while an app records audio, then return to music mode"
+msgstr "Usa o modo headset enquanto algum app grava áudio e depois volta ao modo música"
+
+#: data/ui/page-profiles.ui:21
+msgid "Save current settings"
+msgstr "Salvar ajustes atuais"
+
+#: data/ui/page-profiles.ui:22
+msgid "Saves the equalizer, noise control, balance, game mode and system equalizer."
+msgstr "Salva o equalizador, o controle de ruído, o balanço, o modo de jogo e o equalizador de sistema."
+
+#: data/ui/page-profiles.ui:24
+msgid "Profile name"
+msgstr "Nome do perfil"
+
+#: data/ui/page-profiles.ui:28
+msgid "Saved profiles"
+msgstr "Perfis salvos"
+
+#: data/ui/page-sound.ui:37
+msgid "Software equalizer on this computer, added to the earbuds equalizer"
+msgstr "Equalizador em software neste computador, somado ao equalizador dos fones"
+
+#: data/ui/page-sound.ui:51
+msgid "Earbud fit test"
+msgstr "Teste de ajuste de fones de ouvido"
+
+#: data/ui/page-sound.ui:51
+msgid "Check your earbud fit to make sure you get the best sound and noise canceling. Wear both earbuds."
+msgstr "Verifique o ajuste dos fones de ouvido para garantir o melhor som e cancelamento de ruído. Use os dois fones."
+
+#: data/ui/page-sound.ui:53
+msgid "Result"
+msgstr "Resultado"
+
+#: data/ui/page-system-eq.ui:22
+msgid "Software equalizer from PipeWire, added on top of the earbuds preset. It creates the “Buds Studio EQ” output and makes it the default while enabled."
+msgstr "Equalizador em software do PipeWire, somado ao preset dos fones. Ele cria a saída “Buds Studio EQ” e a deixa como padrão enquanto estiver ligado."
+
+#: data/ui/page-system-eq.ui:23
+msgid "Reset"
+msgstr "Zerar"
+
+#: data/ui/page-touch-hold.ui:29
+msgid "Volume is always used on both earbuds: left turns it down, right turns it up."
+msgstr "O volume vale sempre para os dois fones: o esquerdo abaixa e o direito aumenta."
+
+#: data/ui/page-touch-hold.ui:36
+msgid "Modes switched by touch and hold. Choose at least two."
+msgstr "Modos alternados ao manter pressionado. Escolha pelo menos dois."
+
+#: data/ui/page-touch.ui:27
+msgid "Turn off to block touches"
+msgstr "Desative para bloquear os toques"
+
+#: data/ui/page-touch.ui:33
+msgid "Media controls"
+msgstr "Controles de mídia"
+
+#: data/ui/page-touch.ui:38
+msgid "Play or pause track"
+msgstr "Reproduz ou pausa a faixa"
+
+#: data/ui/page-touch.ui:39
+msgid "Tap"
+msgstr "Tocar"
+
+#: data/ui/page-touch.ui:43
+msgid "Play next track"
+msgstr "Reproduz a próxima faixa"
+
+#: data/ui/page-touch.ui:44 data/ui/page-touch.ui:71
+msgid "Double tap"
+msgstr "Toque duplo"
+
+#: data/ui/page-touch.ui:48
+msgid "Play previous track"
+msgstr "Reproduz a faixa anterior"
+
+#: data/ui/page-touch.ui:49
+msgid "Triple tap"
+msgstr "Toque triplo"
+
+#: data/ui/page-touch.ui:65
+msgid "Call controls"
+msgstr "Controles de chamada"
+
+#: data/ui/page-touch.ui:70
+msgid "Answer call or end call"
+msgstr "Atender ou encerrar chamada"
+
+#: data/ui/page-touch.ui:75
+msgid "Decline call"
+msgstr "Recusar chamada"
+
+#: data/ui/preferences.ui:10
+msgid "General"
+msgstr "Geral"
+
+#: data/ui/preferences.ui:16
+msgid "Theme"
+msgstr "Tema"
+
+#: data/ui/preferences.ui:21
+msgid "Language"
+msgstr "Idioma"
+
+#: data/ui/preferences.ui:22
+msgid "Takes effect after restarting the app"
+msgstr "Vale depois de reiniciar o app"
+
+#: data/ui/preferences.ui:38
+msgid "Reapply last preset on connect"
+msgstr "Reaplicar o último preset ao conectar"
+
+#: data/ui/preferences.ui:45
+msgid "Background"
+msgstr "Segundo plano"
+
+#: data/ui/preferences.ui:48
+msgid "Icon in the system tray"
+msgstr "Ícone na bandeja do sistema"
+
+#: data/ui/preferences.ui:49
+msgid "Closing the window keeps the app running in the tray"
+msgstr "Fechar a janela mantém o app rodando na bandeja"
+
+#: data/ui/preferences.ui:54
+msgid "Start with the system"
+msgstr "Iniciar com o sistema"
+
+#: data/ui/preferences.ui:55
+msgid "Starts minimized"
+msgstr "Inicia minimizado"
+
+#: data/ui/preferences.ui:64
+msgid "Appearance"
+msgstr "Aparência"
+
+#: data/ui/preferences.ui:68
+msgid "Background image"
+msgstr "Imagem de fundo"
+
+#: data/ui/preferences.ui:69
+msgid "The look is defined in style.css; images live in the backgrounds folder."
+msgstr "A aparência fica no style.css; as imagens ficam na pasta backgrounds."
+
+#: data/ui/preferences.ui:72
+msgid "Image"
+msgstr "Imagem"
+
+#: data/ui/preferences.ui:77
+msgid "Choose your own image…"
+msgstr "Escolher uma imagem sua…"
+
+#: data/ui/preferences.ui:86
+msgid "Notifications"
+msgstr "Notificações"
+
+#: data/ui/preferences.ui:92
+msgid "Earbuds connected or disconnected"
+msgstr "Fones conectados ou desconectados"
+
+#: data/ui/preferences.ui:102
+msgid "Low battery level"
+msgstr "Nível de bateria baixa"
+
+#: data/ui/preferences.ui:103
+msgid "Percent"
+msgstr "Porcentagem"

@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=Buds Studio
+GenericName=Earbuds equalizer
+GenericName[pt_BR]=Equalizador de fones
+Comment=Equalizer and settings for Galaxy Buds
+Comment[pt_BR]=Equalizador e ajustes dos Galaxy Buds
+Exec=buds-studio
+Icon=io.github.mr_l3gne.BudsStudio
+Terminal=false
+Categories=AudioVideo;Audio;GTK;
+Keywords=equalizer;earbuds;bluetooth;anc;noise;equalizador;fones;ruído;
+StartupNotify=true
+X-GNOME-UsesNotifications=true

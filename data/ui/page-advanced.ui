@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Recursos avançados e o acesso a Labs. -->
+<interface domain="buds-studio">
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.7"/>
+  <object class="AdwNavigationPage" id="page">
+    <property name="title" translatable="yes">Advanced features</property>
+    <property name="tag">advanced</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" id="header">
+            
+          </object>
+        </child>
+        
+        <property name="content">
+          <object class="AdwPreferencesPage" id="prefs">
+            <child>
+  <object class="AdwPreferencesGroup" id="advanced_group">
+    
+    
+    
+    <child>
+  <object class="AdwSwitchRow" id="ambient_calls_row">
+    <property name="title" translatable="yes">Use Ambient sound during calls</property>
+    <property name="subtitle" translatable="yes">Hearing your own voice when you’re on the phone can make long calls more comfortable, help you avoid unintentionally raising your voice, and relieve the feeling of ear pressure.</property>
+  </object>
+</child><child>
+  <object class="AdwSwitchRow" id="in_ear_row">
+    <property name="title" translatable="yes">In-ear detection for calls</property>
+    <property name="subtitle" translatable="yes">Play calls through your phone speaker when both earbuds are removed.</property>
+  </object>
+</child>
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="labs_group">
+    
+    
+    
+    <child>
+  <object class="AdwActionRow" id="labs_row">
+    <property name="title" translatable="yes">Labs</property>
+    
+    <property name="activatable">True</property>
+    <property name="action-name">navigation.push</property>
+    <property name="action-target">'labs'</property>
+    
+    <child type="suffix"><object class="GtkImage"><property name="icon-name">go-next-symbolic</property></object></child>
+  </object>
+</child>
+  </object>
+</child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </object>
+</interface>

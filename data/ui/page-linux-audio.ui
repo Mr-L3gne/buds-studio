@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Recursos do Linux: áudio Bluetooth pelo PipeWire. -->
+<interface domain="buds-studio">
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.7"/>
+  <object class="AdwNavigationPage" id="page">
+    <property name="title" translatable="yes">Bluetooth audio</property>
+    <property name="tag">linux-audio</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" id="header">
+            
+          </object>
+        </child>
+        
+        <property name="content">
+          <object class="AdwPreferencesPage" id="prefs">
+            <child>
+  <object class="AdwPreferencesGroup" id="output_group">
+    
+    
+    
+    <child><object class="AdwActionRow" id="output_row"><property name="title" translatable="yes">Use as audio output</property><property name="subtitle" translatable="yes">Send the computer sound to these earbuds</property><child type="suffix"><object class="GtkButton" id="output_button"><property name="label" translatable="yes">Use</property><property name="valign">center</property></object></child></object></child>
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="audio_group">
+    
+    <property name="description" translatable="yes">Music mode (A2DP) has the best quality but no microphone. Headset mode (HFP) enables the microphone for calls and Discord.</property>
+    
+    <child><object class="AdwComboRow" id="audio_mode_row"><property name="title" translatable="yes">Audio mode</property></object></child><child>
+  <object class="AdwActionRow" id="codec_row">
+    <property name="title" translatable="yes">Codec</property>
+    
+    
+  </object>
+</child><child>
+  <object class="AdwSwitchRow" id="autoswitch_row">
+    <property name="title" translatable="yes">Switch automatically</property>
+    <property name="subtitle" translatable="yes">Use headset mode while an app records audio, then return to music mode</property>
+  </object>
+</child>
+  </object>
+</child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </object>
+</interface>

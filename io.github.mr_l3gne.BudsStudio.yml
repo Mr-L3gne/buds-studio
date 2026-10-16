@@ -1,0 +1,110 @@
+id: io.github.mr_l3gne.BudsStudio
+runtime: org.gnome.Platform
+runtime-version: '51'
+sdk: org.gnome.Sdk
+command: buds-studio
+finish-args:
+  # Interface gráfica
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Bluetooth: sockets RFCOMM e o BlueZ (listar fones, Profile1, ConnectProfile)
+  - --allow=bluetooth
+  - --system-talk-name=org.bluez
+  # PipeWire: perfil de áudio Bluetooth, codec e EQ de sistema
+  - --filesystem=xdg-run/pipewire-0
+  # Ícone na bandeja (StatusNotifierItem)
+  - --talk-name=org.kde.StatusNotifierWatcher
+cleanup:
+  - /include
+  - /lib/pkgconfig
+  - /share/doc
+  - /share/man
+modules:
+  # O runtime GNOME traz a libpipewire, mas não o `pipewire` nem o module-filter-chain e o
+  # plugin filter-graph usados pelo EQ de sistema. Só o mínimo é compilado aqui, na mesma
+  # versão da libpipewire do runtime. A libpipewire de /app/lib passa a valer para as
+  # ferramentas pw-* do runtime, por isso /app/share/pipewire (client.conf) é mantido.
+  - name: pipewire-filter-chain
+    buildsystem: meson
+    config-opts:
+      - -Dsession-managers=[]
+      - -Ddocs=disabled
+      - -Dman=disabled
+      - -Dexamples=disabled
+      - -Dtests=disabled
+      - -Dinstalled_tests=disabled
+      - -Dgstreamer=disabled
+      - -Dgstreamer-device-provider=disabled
+      - -Dlibsystemd=disabled
+      - -Dlogind=disabled
+      - -Dsystemd-system-service=disabled
+      - -Dsystemd-user-service=disabled
+      - -Dselinux=disabled
+      - -Dpipewire-alsa=disabled
+      - -Dpipewire-jack=disabled
+      - -Dpipewire-v4l2=disabled
+      - -Dalsa=disabled
+      - -Dbluez5=disabled
+      - -Djack=disabled
+      - -Dv4l2=disabled
+      - -Dlibcamera=disabled
+      - -Dvideoconvert=disabled
+      - -Dvideotestsrc=disabled
+      - -Daudiotestsrc=disabled
+      - -Dvulkan=disabled
+      - -Dpw-cat=disabled
+      - -Dudev=disabled
+      - -Dsdl2=disabled
+      - -Dsndfile=disabled
+      - -Dlibmysofa=disabled
+      - -Dlibpulse=disabled
+      - -Droc=disabled
+      - -Davahi=disabled
+      - -Decho-cancel-webrtc=disabled
+      - -Dlibusb=disabled
+      - -Draop=disabled
+      - -Dlv2=disabled
+      - -Dx11=disabled
+      - -Dx11-xfixes=disabled
+      - -Dlibcanberra=disabled
+      - -Davb=disabled
+      - -Dflatpak=disabled
+      - -Dreadline=disabled
+      - -Dgsettings=disabled
+      - -Dcompress-offload=disabled
+      - -Dopus=disabled
+      - -Dlibffado=disabled
+      - -Dsnap=disabled
+      - -Debur128=disabled
+      - -Dfftw=disabled
+      - -Donnxruntime=disabled
+      - -Ddbus=disabled
+      - -Devl=disabled
+      - -Dtest=disabled
+      - -Dlegacy-rtkit=false
+    cleanup:
+      - /bin/pw-*
+      - /bin/pipewire-*
+      - /bin/spa-*
+      - /share/locale/*/LC_MESSAGES/pipewire.mo
+    sources:
+      - type: archive
+        url: https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.6.8/pipewire-1.6.8.tar.gz
+        sha256: 8181172a1d95131f6af8bbc0b98f90b2a33349b042b84c3ce57dd5d11348cc58
+
+  - name: buds-studio
+    buildsystem: simple
+    build-commands:
+      - sh packaging/install.sh /app
+    sources:
+      - type: dir
+        path: .
+        skip:
+          - .flatpak-builder
+          - build
+          - build-dir
+          - repo
+          - dist
+          - tests

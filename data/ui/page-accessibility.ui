@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Acessibilidade / Melhorias de audição. -->
+<interface domain="buds-studio">
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.7"/>
+  <object class="AdwNavigationPage" id="page">
+    <property name="title" translatable="yes">Accessibility</property>
+    <property name="tag">accessibility</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" id="header">
+            
+          </object>
+        </child>
+        
+        <property name="content">
+          <object class="AdwPreferencesPage" id="prefs">
+            <child>
+  <object class="AdwPreferencesGroup" id="balance_group">
+    <property name="title" translatable="yes">Left/right sound balance</property>
+    
+    
+    <child>
+  <object class="AdwActionRow" id="balance_row">
+    <property name="title" translatable="yes">Left</property>
+    
+    <child type="suffix"><object class="GtkScale" id="balance_scale">
+  <property name="hexpand">True</property>
+  <property name="draw-value">False</property>
+  <property name="digits">0</property>
+  <property name="adjustment"><object class="GtkAdjustment">
+    <property name="lower">0</property><property name="upper">32</property>
+    <property name="step-increment">1</property><property name="value">16</property>
+  </object></property>
+  <marks><mark value="16" position="bottom"></mark></marks>
+</object></child><child type="suffix"><object class="GtkLabel"><property name="label" translatable="yes">Right</property></object></child>
+  </object>
+</child>
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="noise_options_group">
+    
+    
+    
+    <child>
+  <object class="AdwSwitchRow" id="anc_one_earbud_row">
+    <property name="title" translatable="yes">Noise controls with one earbud</property>
+    <property name="subtitle" translatable="yes">Normally, noise controls turn off when you use only one earbud. Turn this on to keep them running.</property>
+  </object>
+</child>
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="ambient_group">
+    <property name="title" translatable="yes">Ambient sound volume</property>
+    
+    
+    <child>
+  <object class="AdwActionRow" id="ambient_left_row">
+    <property name="title" translatable="yes">Left</property>
+    
+    <child type="suffix"><object class="GtkScale" id="ambient_left_scale">
+  <property name="hexpand">True</property>
+  <property name="draw-value">True</property>
+  <property name="digits">0</property>
+  <property name="adjustment"><object class="GtkAdjustment">
+    <property name="lower">0</property><property name="upper">2</property>
+    <property name="step-increment">1</property><property name="value">0</property>
+  </object></property>
+  
+</object></child>
+  </object>
+</child><child>
+  <object class="AdwActionRow" id="ambient_right_row">
+    <property name="title" translatable="yes">Right</property>
+    
+    <child type="suffix"><object class="GtkScale" id="ambient_right_scale">
+  <property name="hexpand">True</property>
+  <property name="draw-value">True</property>
+  <property name="digits">0</property>
+  <property name="adjustment"><object class="GtkAdjustment">
+    <property name="lower">0</property><property name="upper">2</property>
+    <property name="step-increment">1</property><property name="value">0</property>
+  </object></property>
+  
+</object></child>
+  </object>
+</child>
+  </object>
+</child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </object>
+</interface>

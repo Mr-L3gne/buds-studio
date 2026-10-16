@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Labs: recursos experimentais do app original. -->
+<interface domain="buds-studio">
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.7"/>
+  <object class="AdwNavigationPage" id="page">
+    <property name="title" translatable="yes">Labs</property>
+    <property name="tag">labs</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" id="header">
+            
+          </object>
+        </child>
+        
+        <property name="content">
+          <object class="AdwPreferencesPage" id="prefs">
+            <child>
+  <object class="AdwPreferencesGroup" id="game_group">
+    
+    <property name="description" translatable="yes">Check out these experimental features.</property>
+    
+    <child>
+  <object class="AdwSwitchRow" id="game_mode_row">
+    <property name="title" translatable="yes">Gaming mode</property>
+    
+  </object>
+</child>
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="extra_group">
+    
+    
+    
+    <child>
+  <object class="AdwSwitchRow" id="extra_high_row">
+    <property name="title" translatable="yes">Extra-high ambient volume</property>
+    <property name="subtitle" translatable="yes">Add an extra volume level so you can play ambient sound at a higher than normal volume.</property>
+  </object>
+</child>
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="hearing_group">
+    
+    
+    
+    <child>
+  <object class="AdwActionRow" id="hearing_row">
+    <property name="title" translatable="yes">Hearing enhancements</property>
+    
+    <property name="activatable">True</property>
+    <property name="action-name">navigation.push</property>
+    <property name="action-target">'accessibility'</property>
+    
+    <child type="suffix"><object class="GtkImage"><property name="icon-name">go-next-symbolic</property></object></child>
+  </object>
+</child>
+  </object>
+</child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </object>
+</interface>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Manter pressionado: opção de cada lado e ciclo do controle de ruído. -->
+<interface domain="buds-studio">
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.7"/>
+  <object class="AdwNavigationPage" id="page">
+    <property name="title" translatable="yes">Touch and hold</property>
+    <property name="tag">touch-hold</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" id="header">
+            
+          </object>
+        </child>
+        
+        <property name="content">
+          <object class="AdwPreferencesPage" id="prefs">
+            <child>
+  <object class="AdwPreferencesGroup" id="hold_left_group">
+    <property name="title" translatable="yes">Left</property>
+    
+    
+    
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="hold_right_group">
+    <property name="title" translatable="yes">Right</property>
+    <property name="description" translatable="yes">Volume is always used on both earbuds: left turns it down, right turns it up.</property>
+    
+    
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="cycle_group">
+    <property name="title" translatable="yes">Switch noise controls</property>
+    <property name="description" translatable="yes">Modes switched by touch and hold. Choose at least two.</property>
+    
+    <child>
+  <object class="AdwSwitchRow" id="cycle_anc">
+    <property name="title" translatable="yes">Active noise canceling</property>
+    
+  </object>
+</child><child>
+  <object class="AdwSwitchRow" id="cycle_ambient">
+    <property name="title" translatable="yes">Ambient sound</property>
+    
+  </object>
+</child><child>
+  <object class="AdwSwitchRow" id="cycle_off">
+    <property name="title" translatable="yes">Off</property>
+    
+  </object>
+</child>
+  </object>
+</child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </object>
+</interface>

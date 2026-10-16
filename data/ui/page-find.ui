@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Buscar meus fones de ouvido. -->
+<interface domain="buds-studio">
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.7"/>
+  <object class="AdwNavigationPage" id="page">
+    <property name="title" translatable="yes">Find My earbuds</property>
+    <property name="tag">find</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" id="header">
+            
+          </object>
+        </child>
+        
+        <property name="content">
+          <object class="AdwPreferencesPage" id="prefs">
+            <child>
+  <object class="AdwPreferencesGroup" id="find_group">
+    
+    <property name="description" translatable="yes">Your earbuds will start beeping when you tap Start. The sound will gradually get louder. Make sure the earbuds are not in your ears or anyone else’s, as the sound could cause hearing damage. It stops by itself after 3 minutes.</property>
+    
+    <child><object class="AdwActionRow" id="find_row"><property name="title" translatable="yes">Ring</property><child type="suffix"><object class="GtkButton" id="find_button"><property name="label" translatable="yes">Start</property><property name="valign">center</property><style><class name="suggested-action"/></style></object></child></object></child><child>
+  <object class="AdwSwitchRow" id="mute_left_row">
+    <property name="title" translatable="yes">Mute left earbud</property>
+    
+  </object>
+</child><child>
+  <object class="AdwSwitchRow" id="mute_right_row">
+    <property name="title" translatable="yes">Mute right earbud</property>
+    
+  </object>
+</child>
+  </object>
+</child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </object>
+</interface>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sobre os fones de ouvido (somente leitura). -->
+<interface domain="buds-studio">
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.7"/>
+  <object class="AdwNavigationPage" id="page">
+    <property name="title" translatable="yes">About earbuds</property>
+    <property name="tag">about</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" id="header">
+            
+          </object>
+        </child>
+        
+        <property name="content">
+          <object class="AdwPreferencesPage" id="prefs">
+            <child>
+  <object class="AdwPreferencesGroup" id="about_name_group">
+    
+    
+    
+    <child><object class="AdwActionRow" id="info_name"><property name="title" translatable="yes">Name</property><property name="subtitle-selectable">True</property><style><class name="property"/></style></object></child><child><object class="AdwActionRow" id="info_model"><property name="title" translatable="yes">Product name</property><property name="subtitle-selectable">True</property><style><class name="property"/></style></object></child>
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="about_serial_group">
+    <property name="title" translatable="yes">Serial number</property>
+    
+    
+    <child><object class="AdwActionRow" id="info_serial_left"><property name="title" translatable="yes">Left</property><property name="subtitle-selectable">True</property><style><class name="property"/></style></object></child><child><object class="AdwActionRow" id="info_serial_right"><property name="title" translatable="yes">Right</property><property name="subtitle-selectable">True</property><style><class name="property"/></style></object></child><child><object class="AdwActionRow" id="info_case_serial"><property name="title" translatable="yes">Case</property><property name="subtitle-selectable">True</property><style><class name="property"/></style></object></child>
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="about_sw_group">
+    <property name="title" translatable="yes">Software information</property>
+    
+    
+    <child><object class="AdwActionRow" id="info_fw_left"><property name="title" translatable="yes">Left</property><property name="subtitle-selectable">True</property><style><class name="property"/></style></object></child><child><object class="AdwActionRow" id="info_fw_right"><property name="title" translatable="yes">Right</property><property name="subtitle-selectable">True</property><style><class name="property"/></style></object></child><child><object class="AdwActionRow" id="info_case_fw"><property name="title" translatable="yes">Case</property><property name="subtitle-selectable">True</property><style><class name="property"/></style></object></child>
+  </object>
+</child><child>
+  <object class="AdwPreferencesGroup" id="about_other_group">
+    
+    
+    
+    <child><object class="AdwActionRow" id="info_address"><property name="title" translatable="yes">Bluetooth address</property><property name="subtitle-selectable">True</property><style><class name="property"/></style></object></child><child><object class="AdwActionRow" id="info_hw"><property name="title" translatable="yes">Hardware revision</property><property name="subtitle-selectable">True</property><style><class name="property"/></style></object></child>
+  </object>
+</child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </object>
+</interface>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Diálogo de preferências. -->
+<interface domain="buds-studio">
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.5"/>
+  <object class="AdwPreferencesDialog" id="dialog">
+    <property name="search-enabled">False</property>
+    <child>
+      <object class="AdwPreferencesPage">
+        <property name="title" translatable="yes">General</property>
+        <property name="icon-name">emblem-system-symbolic</property>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <child>
+              <object class="AdwComboRow" id="theme_row">
+                <property name="title" translatable="yes">Theme</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwComboRow" id="language_row">
+                <property name="title" translatable="yes">Language</property>
+                <property name="subtitle" translatable="yes">Takes effect after restarting the app</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Connection</property>
+            <child>
+              <object class="AdwSwitchRow" id="reconnect_row">
+                <property name="title" translatable="yes">Reconnect automatically</property>
+                <property name="subtitle" translatable="yes">Connect again when the earbuds turn on</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSwitchRow" id="reapply_row">
+                <property name="title" translatable="yes">Reapply last preset on connect</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Background</property>
+            <child>
+              <object class="AdwSwitchRow" id="tray_row">
+                <property name="title" translatable="yes">Icon in the system tray</property>
+                <property name="subtitle" translatable="yes">Closing the window keeps the app running in the tray</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSwitchRow" id="autostart_row">
+                <property name="title" translatable="yes">Start with the system</property>
+                <property name="subtitle" translatable="yes">Starts minimized</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesPage">
+        <property name="title" translatable="yes">Appearance</property>
+        <property name="icon-name">preferences-desktop-wallpaper-symbolic</property>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="title" translatable="yes">Background image</property>
+            <property name="description" translatable="yes">The look is defined in style.css; images live in the backgrounds folder.</property>
+            <child>
+              <object class="AdwComboRow" id="background_row">
+                <property name="title" translatable="yes">Image</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwButtonRow" id="background_choose_row">
+                <property name="title" translatable="yes">Choose your own image…</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesPage">
+        <property name="title" translatable="yes">Notifications</property>
+        <property name="icon-name">preferences-system-notifications-symbolic</property>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <child>
+              <object class="AdwSwitchRow" id="notify_connection_row">
+                <property name="title" translatable="yes">Earbuds connected or disconnected</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSwitchRow" id="notify_battery_row">
+                <property name="title" translatable="yes">Low battery</property>
+              </object>
+            </child>
+            <child>
+              <object class="AdwSpinRow" id="battery_threshold_row">
+                <property name="title" translatable="yes">Low battery level</property>
+                <property name="subtitle" translatable="yes">Percent</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment">
+                    <property name="lower">5</property>
+                    <property name="upper">50</property>
+                    <property name="step-increment">5</property>
+                    <property name="value">20</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

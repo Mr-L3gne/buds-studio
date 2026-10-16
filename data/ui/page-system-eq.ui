@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Equalizador do computador (extra do Linux): EQ paramétrico do PipeWire. -->
+<interface domain="buds-studio">
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.7"/>
+  <object class="AdwNavigationPage" id="page">
+    <property name="title" translatable="yes">Computer equalizer</property>
+    <property name="tag">system-eq</property>
+    <property name="child">
+      <object class="AdwToolbarView">
+        <child type="top">
+          <object class="AdwHeaderBar" id="header">
+            
+          </object>
+        </child>
+        
+        <property name="content">
+          <object class="AdwPreferencesPage" id="prefs">
+            <child>
+  <object class="AdwPreferencesGroup" id="system_eq_group">
+    
+    <property name="description" translatable="yes">Software equalizer from PipeWire, added on top of the earbuds preset. It creates the “Buds Studio EQ” output and makes it the default while enabled.</property>
+    <property name="header-suffix"><object class="GtkButton" id="system_eq_reset"><property name="label" translatable="yes">Reset</property><property name="valign">center</property><style><class name="flat"/></style></object></property>
+    <child>
+  <object class="AdwSwitchRow" id="system_eq_switch">
+    <property name="title" translatable="yes">Computer equalizer</property>
+    
+  </object>
+</child><child><object class="GtkBox" id="system_eq_bands"><property name="homogeneous">True</property><style><class name="card"/><class name="system-eq"/></style></object></child>
+  </object>
+</child>
+          </object>
+        </property>
+      </object>
+    </property>
+  </object>
+</interface>

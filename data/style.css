@@ -1,0 +1,221 @@
+/*
+ * Buds Studio: toda a aparência fica aqui. O código Python não define cores, tamanhos nem
+ * imagens; ele só liga/desliga classes:
+ *   .app-background            área de conteúdo (atrás das páginas)
+ *   .app-background.has-image  quando há imagem de fundo escolhida
+ *   .device-header             cartão do topo da tela inicial (ilustração, nome, bateria)
+ *   .device-illustration       ilustração dos fones (imagem em illustrations/)
+ *   .battery-item / .battery-percent / .battery-caption / .battery-bar / .battery-low
+ *   .noise-toggle              controle segmentado de ruído
+ *   .device-sidebar / .device-row / .device-selector / .device-popover
+ *   .experimental-badge        selo "Experimental" do modelo
+ *   .system-eq / .eq-band / .eq-band-label / .eq-band-value
+ *   .packet-log                texto do diagnóstico
+ * A imagem de fundo escolhida é aplicada pelo app como `--app-background-image`.
+ *
+ * Paleta de referência do app original (docs/DESIGN-REFERENCIA.md §4), como variáveis --bs-*.
+ * O tema segue o sistema ou a opção Tema das Configurações (claro/escuro).
+ */
+
+:root {
+  --bs-primary: #387aff;
+  --bs-background: #f1f1f3;
+  --bs-card: #fcfcff;
+  --bs-text: #010102;
+  --bs-surface: #e4e4e7;
+  --bs-outline: #ccccce;
+  --bs-noise-track: #ededed;
+  --bs-battery-track: #e9e9e9;
+  --bs-radius-card: 26px;
+  --bs-radius-large: 32px;
+  --bs-radius-small: 12px;
+  --bs-padding-item: 14px;
+}
+
+/* Tema escuro: o app liga a classe .dark-theme na janela quando o tema efetivo é escuro
+   (sistema ou opção Tema das Configurações). */
+.dark-theme {
+  --bs-background: #010102;
+  --bs-card: #17171a;
+  --bs-text: #fcfcff;
+  --bs-surface: #3a3a3d;
+  --bs-outline: #636368;
+  --bs-noise-track: #3e3e3e;
+  --bs-battery-track: #252525;
+}
+
+/* Fundo neutro padrão (sem imagem). */
+.app-background {
+  background-color: var(--window-bg-color);
+  background-image: linear-gradient(180deg,
+      alpha(var(--accent-bg-color), 0.06) 0%,
+      transparent 45%);
+}
+
+/* Com imagem escolhida pelo usuário ou da pasta backgrounds/. */
+.app-background.has-image {
+  background-image: linear-gradient(var(--app-background-overlay), var(--app-background-overlay)),
+                    var(--app-background-image);
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+}
+
+/* Cartões levemente translúcidos para o fundo aparecer. */
+.app-background.has-image .boxed-list,
+.app-background.has-image .card {
+  background-color: var(--app-card-alpha-bg);
+}
+
+.experimental-badge {
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.85em;
+  font-weight: bold;
+  color: var(--warning-fg-color);
+  background-color: var(--warning-bg-color);
+}
+
+.battery-bar {
+  min-width: 140px;
+}
+
+.battery-label {
+  min-width: 4em;
+}
+
+.battery-low .battery-label {
+  color: var(--error-color);
+  font-weight: bold;
+}
+
+.noise-toggle button {
+  padding: 10px 6px;
+}
+
+.system-eq {
+  padding: 18px 12px 12px 12px;
+}
+
+.eq-band scale {
+  min-height: 170px;
+}
+
+.eq-band-label {
+  font-size: 0.8em;
+  opacity: 0.7;
+}
+
+.eq-band-value {
+  font-size: 0.8em;
+  font-feature-settings: "tnum";
+}
+
+.packet-log {
+  padding: 12px;
+  font-size: 0.9em;
+}
+
+/* ---------------------------------------------------------------- Tela inicial */
+
+.device-header {
+  color: var(--bs-text);
+  padding: 24px 16px 18px 16px;
+  border-radius: var(--bs-radius-card);
+  background-color: var(--bs-card);
+}
+
+.device-illustration {
+  min-width: 240px;
+  min-height: 150px;
+  background-image: url("illustrations/earbuds.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-bottom: 8px;
+}
+
+.device-name {
+  font-size: 1.6em;
+  font-weight: 800;
+}
+
+.device-status {
+  opacity: 0.65;
+  margin-bottom: 12px;
+}
+
+.battery-row {
+  margin-top: 6px;
+}
+
+.battery-item {
+  padding: 0 6px;
+}
+
+.battery-percent {
+  font-size: 1.25em;
+  font-weight: 700;
+}
+
+.battery-caption {
+  opacity: 0.75;
+  font-size: 0.9em;
+}
+
+.battery-item .battery-bar {
+  min-width: 60px;
+  margin: 6px 4px;
+}
+
+.battery-item .battery-bar trough {
+  background-color: var(--bs-battery-track);
+}
+
+.battery-item .battery-bar block.filled {
+  background-color: var(--bs-primary);
+}
+
+.battery-low .battery-percent {
+  color: var(--error-color);
+}
+
+.noise-toggle {
+  padding: 4px;
+  border-radius: var(--bs-radius-card);
+  background-color: var(--bs-noise-track);
+}
+
+.noise-toggle toggle {
+  padding: 12px 6px;
+  border-radius: var(--bs-radius-card);
+}
+
+.noise-toggle toggle:checked {
+  background-color: var(--bs-primary);
+  color: white;
+}
+
+/* Cartões de seções (AdwPreferencesGroup) com os cantos do app original. */
+.boxed-list {
+  border-radius: var(--bs-radius-card);
+}
+
+/* ---------------------------------------------------------------- Aparelhos */
+
+.device-sidebar {
+  padding: 6px;
+}
+
+.device-sidebar-action {
+  margin: 0 6px;
+}
+
+.device-selector label {
+  font-weight: 700;
+}
+
+.device-popover {
+  padding: 6px;
+  min-width: 300px;
+}
