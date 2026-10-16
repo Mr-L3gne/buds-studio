@@ -9,6 +9,7 @@ o app a torna a saída padrão enquanto o EQ estiver ligado. Os ganhos mudam ao 
 
 from __future__ import annotations
 
+import json
 import os
 import shutil
 import subprocess
@@ -35,6 +36,8 @@ def pipewire_binary() -> str | None:
 
 
 def build_config(gains: list[float], target: str, description: str) -> str:
+    if not pw.valid_bluez_sink(target):
+        raise ValueError(f"saída inválida: {target!r}")
     nodes = []
     links = []
     for i, (freq, gain) in enumerate(zip(SYSTEM_EQ_BANDS_HZ, gains), start=1):
@@ -87,6 +90,15 @@ context.modules = [
 """
 
 
+def _json_name(value: str | None) -> str | None:
+    """'{"name":"…"}' lido do pw-metadata → o nome, ou None se não for esse formato."""
+    try:
+        name = json.loads(value or "").get("name")
+    except (ValueError, AttributeError):
+        return None
+    return name if isinstance(name, str) and name else None
+
+
 class SystemEqService(GObject.Object):
     __gsignals__ = {
         "changed": (GObject.SignalFlags.RUN_FIRST, None, ()),
@@ -114,6 +126,8 @@ class SystemEqService(GObject.Object):
 
     def set_target_sink(self, node_name: str | None) -> None:
         """Saída do fone (ex.: bluez_output.XX_XX….1). Reinicia o EQ se ela mudar."""
+        if node_name is not None and not pw.valid_bluez_sink(node_name):
+            node_name = None  # nunca vai para a config do filter-chain
         if node_name == self.target_sink:
             return
         self.target_sink = node_name
@@ -149,7 +163,11 @@ class SystemEqService(GObject.Object):
             self.emit("error", "pipewire")
             return
         conf = pw.runtime_dir() / "system-eq.conf"
-        conf.write_text(build_config(self.gains, self.target_sink or "", self.description))
+        try:
+            conf.write_text(build_config(self.gains, self.target_sink or "", self.description))
+        except ValueError as exc:
+            self.emit("error", str(exc))
+            return
         launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.STDOUT_SILENCE | Gio.SubprocessFlags.STDERR_PIPE)
         try:
             self._proc = launcher.spawnv([binary, "-c", str(conf)])
@@ -195,13 +213,14 @@ class SystemEqService(GObject.Object):
                     value = line.split("value:'", 1)[1].split("'", 1)[0]
                     if SINK_NAME not in value:
                         self._previous_default = value
-            pw.run(["pw-metadata", "0", "default.configured.audio.sink", f'{{"name":"{SINK_NAME}"}}', "Spa:String:JSON"])
+            pw.run(["pw-metadata", "0", "default.configured.audio.sink", pw.sink_json(SINK_NAME), "Spa:String:JSON"])
 
         pw.run(["pw-metadata", "0", "default.configured.audio.sink"], current)
 
     def _restore_default(self, wait: bool = False) -> None:
-        if self._previous_default:
-            argv = ["pw-metadata", "0", "default.configured.audio.sink", self._previous_default, "Spa:String:JSON"]
+        previous = _json_name(self._previous_default)
+        if previous:
+            argv = ["pw-metadata", "0", "default.configured.audio.sink", pw.sink_json(previous), "Spa:String:JSON"]
         else:
             argv = ["pw-metadata", "-d", "0", "default.configured.audio.sink"]
         self._previous_default = None

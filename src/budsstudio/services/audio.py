@@ -72,10 +72,20 @@ def parse_card(objects: list, address: str) -> CardInfo | None:
         props = pw.props_of(obj)
         if obj.get("type") == "PipeWire:Interface:Node" and props.get("device.id") == card["id"]:
             codec = props.get("api.bluez5.codec") or codec
-            if str(props.get("media.class", "")).startswith("Audio/Sink"):
+            if str(props.get("media.class", "")).startswith("Audio/Sink") and _is_sink_of(props, address):
                 sink_node = props.get("node.name")
                 break
     return CardInfo(card["id"], profiles, current, codec, sink_node)
+
+
+def _is_sink_of(props: dict, address: str) -> bool:
+    """O nó é a saída Bluetooth deste fone (e não só algo com o mesmo device.id)?"""
+    if not pw.valid_bluez_sink(props.get("node.name")):
+        return False
+    node_address = props.get("api.bluez5.address")
+    if node_address is not None:
+        return str(node_address).upper() == address
+    return props.get("device.api") == "bluez5"
 
 
 def recording_streams(objects: list) -> list[str]:
@@ -215,7 +225,7 @@ class AudioService(GObject.Object):
                 on_done("sink")
                 return
             pw.run(
-                ["pw-metadata", "0", "default.configured.audio.sink", f'{{"name":"{card.sink_node}"}}', "Spa:String:JSON"],
+                ["pw-metadata", "0", "default.configured.audio.sink", pw.sink_json(card.sink_node), "Spa:String:JSON"],
                 lambda ok, _o, err: on_done(None if ok else (err.strip() or "pw-metadata")),
             )
 

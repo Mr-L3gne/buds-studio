@@ -240,7 +240,8 @@ class PipeWireParsingTest(unittest.TestCase):
             "id": 78,
             "type": "PipeWire:Interface:Node",
             "info": {"props": {"device.id": 87, "media.class": "Audio/Sink", "api.bluez5.codec": "sbc",
-                               "node.name": "bluez_output.5C_5E_0A_64_00_C1.1"}},
+                               "node.name": "bluez_output.5C_5E_0A_64_00_C1.1", "device.api": "bluez5",
+                               "api.bluez5.address": "5C:5E:0A:64:00:C1"}},
         },
         {
             "id": 120,
@@ -266,10 +267,10 @@ class PipeWireParsingTest(unittest.TestCase):
         self.assertEqual(recording_streams(self.OBJECTS), ["Discord"])
 
     def test_system_eq_config(self):
-        conf = build_config([1.5] + [0.0] * 9, "bluez_output.X.1", "Buds Studio EQ")
+        conf = build_config([1.5] + [0.0] * 9, "bluez_output.5C_5E_0A_64_00_C1.1", "Buds Studio EQ")
         self.assertIn('label = bq_peaking control = { "Freq" = 31.0 "Q" = 1.41 "Gain" = 1.50 }', conf)
         self.assertIn('{ output = "band9:Out" input = "band10:In" }', conf)
-        self.assertIn('target.object = "bluez_output.X.1"', conf)
+        self.assertIn('target.object = "bluez_output.5C_5E_0A_64_00_C1.1"', conf)
         self.assertIn("media.category = Manager", conf)
 
 

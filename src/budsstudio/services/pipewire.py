@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shutil
 from pathlib import Path
 from typing import Callable
@@ -34,6 +35,20 @@ context.modules = [
     { name = libpipewire-module-metadata }
 ]
 """
+
+
+# node.name da saída de um fone no PipeWire, ex.: bluez_output.5C_5E_0A_64_00_C1.1. Nada que venha
+# do pw-dump vai para uma config ou para o pw-metadata sem bater com isto.
+_BLUEZ_SINK = re.compile(r"^bluez_output\.[0-9A-Fa-f_]+(\.\d+)?$")
+
+
+def valid_bluez_sink(name) -> bool:
+    return isinstance(name, str) and _BLUEZ_SINK.fullmatch(name) is not None
+
+
+def sink_json(node_name: str) -> str:
+    """Valor de default.configured.audio.sink para o pw-metadata."""
+    return json.dumps({"name": node_name})
 
 
 def runtime_dir() -> Path:
