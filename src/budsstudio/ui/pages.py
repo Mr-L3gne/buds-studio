@@ -31,18 +31,6 @@ class Page:
         self.ui = ui
         self.updating = False
         self.page = ui.get("page", Adw.NavigationPage)
-        self._dirty = True
-        self._service_handlers: list[tuple] = []
-
-    def listen(self, obj, signal: str, callback) -> None:
-        """Conecta a um sinal de um serviço; `destroy()` desconecta (a janela pode ser destruída
-        e o serviço continuar)."""
-        self._service_handlers.append((obj, obj.connect(signal, callback)))
-
-    def destroy(self) -> None:
-        for obj, handler in self._service_handlers:
-            obj.disconnect(handler)
-        self._service_handlers.clear()
 
     def run(self, action, *args) -> None:
         """Executa um comando do fone e mostra o erro num toast."""
@@ -61,16 +49,7 @@ class Page:
         return self.device.connected and self.device.state.ready
 
     def refresh(self) -> None:
-        # Página fora da tela (ou janela minimizada): só marca; atualiza quando aparecer.
-        if not self.window.is_shown(self):
-            self._dirty = True
-            return
-        self._dirty = False
         self.guarded(self._refresh)
-
-    def refresh_if_dirty(self) -> None:
-        if self._dirty:
-            self.refresh()
 
     def _refresh(self) -> None:
         pass
@@ -301,8 +280,8 @@ class SoundPage(Page):
         self.fit_button = ui.get("fit_button", Gtk.Button)
         self.fit_button.connect("clicked", self._on_fit)
         self._fit_running = False
-        self.listen(self.device, "fit-result", self._on_fit_result)
-        self.listen(self.app.system_eq, "changed", lambda *_: self.refresh())
+        self.device.connect("fit-result", self._on_fit_result)
+        self.app.system_eq.connect("changed", lambda *_: self.refresh())
 
     def _on_fit(self, _button) -> None:
         if self._fit_running:
@@ -365,7 +344,7 @@ class SystemEqPage(Page):
         self.values: list[Gtk.Label] = []
         self._push = Debounce(120, self._send_gains)
         self._build_bands()
-        self.listen(self.system_eq, "changed", lambda *_: self.refresh())
+        self.system_eq.connect("changed", lambda *_: self.refresh())
 
     def _build_bands(self) -> None:
         gains = self.app.config.system_eq_gains
@@ -707,7 +686,7 @@ class FindPage(Page):
         self.mute_right = ui.get("mute_right_row", Adw.SwitchRow)
         for row in (self.mute_left, self.mute_right):
             row.connect("notify::active", self._on_mute)
-        self.listen(self.device, "find-changed", lambda *_: self.refresh())
+        self.device.connect("find-changed", lambda *_: self.refresh())
 
     def _on_find(self, _button) -> None:
         if self.device.finding:
@@ -739,7 +718,7 @@ class AboutPage(Page):
 
     def __init__(self, window, ui: Ui) -> None:
         super().__init__(window, ui)
-        self.listen(self.device, "info-changed", lambda *_: self.refresh())
+        self.device.connect("info-changed", lambda *_: self.refresh())
 
     def _refresh(self) -> None:
         d = self.device

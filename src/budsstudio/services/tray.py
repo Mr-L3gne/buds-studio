@@ -231,9 +231,9 @@ class TrayIcon:
     def _layout(self, item: MenuItem, depth: int) -> GLib.Variant:
         children = []
         if depth != 0:
-            # O PyGObject já põe cada elemento do `av` num variant. Embrulhar de novo aqui gera
-            # v-dentro-de-v: a extensão AppIndicator do GNOME falha ao ler e pede o layout em loop.
-            children = [self._layout(child, depth - 1) for child in item.children]
+            children = [
+                GLib.Variant("v", self._layout(child, depth - 1)) for child in item.children
+            ]
         return GLib.Variant("(ia{sv}av)", (item._id, self._props(item), children))  # type: ignore[attr-defined]
 
     def _menu_call(self, _conn, _sender, _path, _iface, method, params, invocation):
