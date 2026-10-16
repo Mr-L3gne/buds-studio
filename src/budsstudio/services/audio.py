@@ -131,10 +131,13 @@ class AudioService(GObject.Object):
         self.recorders: list[str] = []
         self._idle_polls = 0
         self._poll_source: int | None = None
+        self._waiting: list | None = None  # callbacks do pw-dump em andamento (None = nenhum)
 
     def set_address(self, address: str | None) -> None:
         self.address = address
-        self.card = None
+        if self.card is not None or self.recorders:
+            self.card, self.recorders = None, []
+            self.emit("changed")
         self.refresh()
         self._update_polling()
 
@@ -148,13 +151,22 @@ class AudioService(GObject.Object):
                 on_done()
             return
 
+        # Um pw-dump por vez: quem chama durante um em andamento recebe o mesmo resultado.
+        if self._waiting is not None:
+            self._waiting.append(on_done)
+            return
+        self._waiting = [on_done]
+
         def got(objects, error):
-            if objects is not None:
-                self.card = parse_card(objects, self.address)
-                self.recorders = recording_streams(objects)
-            self.emit("changed")
-            if on_done:
-                on_done()
+            waiting, self._waiting = self._waiting or [], None
+            if objects is not None and self.address:
+                card, recorders = parse_card(objects, self.address), recording_streams(objects)
+                if (card, recorders) != (self.card, self.recorders):
+                    self.card, self.recorders = card, recorders
+                    self.emit("changed")
+            for callback in waiting:
+                if callback:
+                    callback()
 
         pw.dump(got)
 
