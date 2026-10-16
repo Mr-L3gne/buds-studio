@@ -140,7 +140,9 @@ class AudioService(GObject.Object):
         self.auto_switched_from: AudioProfile | None = None
         self.recorders: list[str] = []
         self._idle_polls = 0
-        self._poll_source: int | None = None
+        self._poll_source: int | None = None  # só se o pw-mon não estiver disponível
+        self._monitor: pw.NodeMonitor | None = None
+        self._release_source: int | None = None
         self._waiting: list | None = None  # callbacks do pw-dump em andamento (None = nenhum)
 
     def set_address(self, address: str | None) -> None:
@@ -261,16 +263,40 @@ class AudioService(GObject.Object):
             on_done(str(exc))
 
     def _update_polling(self) -> None:
+        """Com a troca automática ligada, acompanha o PipeWire por eventos (pw-mon). Só se o
+        pw-mon não existir ou cair é que volta ao poll a cada _POLL_S segundos."""
         want = self.available and self.autoswitch and self.address is not None
-        if want and self._poll_source is None:
+        if want and self._monitor is None and self._poll_source is None:
+            monitor = pw.NodeMonitor(self._check, self._on_monitor_exit)
+            if pw.tool_available("pw-mon") and monitor.start():
+                self._monitor = monitor
+            else:
+                self._poll_source = GLib.timeout_add_seconds(_POLL_S, self._poll)
+        elif not want:
+            if self._monitor is not None:
+                self._monitor.stop()
+                self._monitor = None
+            for attr in ("_poll_source", "_release_source"):
+                if getattr(self, attr) is not None:
+                    GLib.source_remove(getattr(self, attr))
+                    setattr(self, attr, None)
+
+    def _on_monitor_exit(self) -> None:
+        self._monitor = None
+        if self.autoswitch:
             self._poll_source = GLib.timeout_add_seconds(_POLL_S, self._poll)
-        elif not want and self._poll_source is not None:
-            GLib.source_remove(self._poll_source)
-            self._poll_source = None
 
     def _poll(self) -> bool:
-        self.refresh(self._apply_autoswitch)
+        self._check()
         return GLib.SOURCE_CONTINUE
+
+    def _check(self) -> None:
+        self.refresh(self._apply_autoswitch)
+
+    def _recheck_later(self) -> bool:
+        self._release_source = None
+        self._check()
+        return GLib.SOURCE_REMOVE
 
     def _apply_autoswitch(self) -> None:
         card = self.card
@@ -278,6 +304,9 @@ class AudioService(GObject.Object):
             return
         if self.recorders:
             self._idle_polls = 0
+            if self._release_source is not None:
+                GLib.source_remove(self._release_source)
+                self._release_source = None
             if card.current.kind == "a2dp":
                 self.auto_switched_from = card.current
                 self.set_kind("hfp")
@@ -288,6 +317,10 @@ class AudioService(GObject.Object):
                 self.auto_switched_from = None
                 self._idle_polls = 0
                 self.set_profile(target.index)
+            elif self._monitor is not None and self._release_source is None:
+                # Sem poll, ninguém confere de novo se a gravação acabou de vez: uma nova
+                # conferência em _POLL_S segundos (só enquanto espera para voltar ao A2DP).
+                self._release_source = GLib.timeout_add_seconds(_POLL_S, self._recheck_later)
 
     def shutdown(self) -> None:
         self.autoswitch = False

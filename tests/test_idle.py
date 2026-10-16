@@ -76,6 +76,56 @@ class AudioIdleTest(unittest.TestCase):
         self.assertEqual(sorted(done), [1, 2])
 
 
+class NodeMonitorTest(unittest.TestCase):
+    """Saída real do pw-mon -N -o -a (PipeWire 1.6.8), recortada."""
+
+    def setUp(self):
+        self.kicks = 0
+        self.monitor = audio_mod.pw.NodeMonitor(lambda: None)
+        self.monitor._kick = lambda: setattr(self, "kicks", self.kicks + 1)
+
+    def feed(self, text):
+        for line in text.splitlines():
+            self.monitor.feed(line)
+
+    def test_only_nodes_count(self):
+        self.feed("added:\n\tid: 104\n\tpermissions: rwxm-\n\ttype: PipeWire:Interface:Node (version 3)\n")
+        self.assertEqual(self.kicks, 1)
+        # O pw-dump/pw-cli do próprio app: Client e Port não contam (sem realimentação).
+        self.feed("added:\n\tid: 120\n\ttype: PipeWire:Interface:Client (version 3)\n"
+                  "added:\n\tid: 82\n\tpermissions: r-xm-\n\ttype: PipeWire:Interface:Port (version 3)\n"
+                  "removed:\n\tid: 120\nremoved:\n\tid: 82\n")
+        self.assertEqual(self.kicks, 1)
+        self.feed("changed:\n\tid: 104\n\tpermissions: rwxm-\n\ttype: PipeWire:Interface:Node (version 3)\n")
+        self.feed("removed:\n\tid: 104\n")
+        self.assertEqual(self.kicks, 3)
+
+
+class AutoswitchEventsTest(unittest.TestCase):
+    def test_uses_pw_mon_instead_of_timer(self):
+        started = []
+        with mock.patch.object(audio_mod.pw, "tool_available", lambda _n: True), \
+             mock.patch.object(audio_mod.pw.NodeMonitor, "start", lambda self: started.append(self) or True), \
+             mock.patch.object(audio_mod.pw.NodeMonitor, "stop", lambda self: None), \
+             mock.patch.object(audio_mod.pw, "dump", FakeDump()):
+            audio = AudioService()
+            audio.address = CORE_A.address
+            audio.set_autoswitch(True)
+            self.assertEqual(len(started), 1)
+            self.assertIsNone(audio._poll_source)
+            audio.set_autoswitch(False)
+            self.assertIsNone(audio._monitor)
+
+    def test_falls_back_to_poll_without_pw_mon(self):
+        with mock.patch.object(audio_mod.pw, "tool_available", lambda n: n != "pw-mon"):
+            audio = AudioService()
+            audio.address = CORE_A.address
+            audio.set_autoswitch(True)
+            self.assertIsNotNone(audio._poll_source)
+            audio.set_autoswitch(False)
+            self.assertIsNone(audio._poll_source)
+
+
 class SystemEqIdleTest(unittest.TestCase):
     def test_same_values_do_not_emit(self):
         eq = SystemEqService()

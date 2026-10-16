@@ -123,3 +123,92 @@ def props_of(obj: dict) -> dict:
 
 def params_of(obj: dict) -> dict:
     return ((obj.get("info") or {}).get("params")) or {}
+
+
+class NodeMonitor:
+    """Avisa (`on_change`) quando um nó do PipeWire aparece, muda ou some, lendo o `pw-mon`.
+
+    Só nós contam: o pw-dump/pw-cli do próprio app criam objetos Client, não Node, então não há
+    realimentação. Os avisos em rajada viram um só (`debounce_ms`). `on_exit` é chamado se o
+    pw-mon terminar sozinho.
+    """
+
+    _EVENTS = ("added:", "changed:", "removed:")
+
+    def __init__(self, on_change: Callable[[], None], on_exit: Callable[[], None] = lambda: None,
+                 debounce_ms: int = 300) -> None:
+        self._on_change = on_change
+        self._on_exit = on_exit
+        self._debounce_ms = debounce_ms
+        self._proc: Gio.Subprocess | None = None
+        self._stream: Gio.DataInputStream | None = None
+        self._cancellable: Gio.Cancellable | None = None
+        self._source: int | None = None
+        self._event: str | None = None
+        self._id: int | None = None
+        self._nodes: set[int] = set()
+
+    def start(self) -> bool:
+        launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_SILENCE)
+        try:
+            self._proc = launcher.spawnv(["pw-mon", "-N", "-o", "-a"])
+        except GLib.Error:
+            return False
+        self._stream = Gio.DataInputStream.new(self._proc.get_stdout_pipe())
+        self._cancellable = Gio.Cancellable()
+        self._read()
+        return True
+
+    def stop(self) -> None:
+        if self._cancellable is not None:
+            self._cancellable.cancel()
+            self._cancellable = None
+        if self._proc is not None:
+            self._proc.force_exit()
+            self._proc = None
+        if self._source is not None:
+            GLib.source_remove(self._source)
+            self._source = None
+
+    def feed(self, line: str) -> None:
+        """Interpreta uma linha do pw-mon (separado da leitura para os testes)."""
+        line = line.strip()
+        if line in self._EVENTS:
+            self._event, self._id = line, None
+        elif line.startswith("id:"):
+            try:
+                self._id = int(line[3:])
+            except ValueError:
+                self._id = None
+            if self._event == "removed:" and self._id in self._nodes:
+                self._nodes.discard(self._id)
+                self._kick()
+        elif line.startswith("type: PipeWire:Interface:Node") and self._id is not None:
+            if self._event in ("added:", "changed:"):
+                self._nodes.add(self._id)
+                self._kick()
+
+    def _read(self) -> None:
+        self._stream.read_line_async(GLib.PRIORITY_LOW, self._cancellable, self._on_line)
+
+    def _on_line(self, stream, result) -> None:
+        try:
+            line, _length = stream.read_line_finish_utf8(result)
+        except GLib.Error:
+            return  # cancelado (stop) ou erro de leitura
+        if line is None:  # pw-mon terminou
+            self.stop()
+            self._on_exit()
+            return
+        self.feed(line)
+        self._read()
+
+    def _kick(self) -> None:
+        if self._source is not None:
+            GLib.source_remove(self._source)
+        self._source = GLib.timeout_add(self._debounce_ms, self._fire)
+
+    def _fire(self) -> bool:
+        self._source = None
+        self._on_change()
+        return GLib.SOURCE_REMOVE
