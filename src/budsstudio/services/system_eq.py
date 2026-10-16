@@ -123,7 +123,10 @@ class SystemEqService(GObject.Object):
                 self._start()
 
     def set_gains(self, gains: list[float]) -> None:
-        self.gains = [max(-SYSTEM_EQ_GAIN_LIMIT, min(SYSTEM_EQ_GAIN_LIMIT, float(g))) for g in gains]
+        gains = [max(-SYSTEM_EQ_GAIN_LIMIT, min(SYSTEM_EQ_GAIN_LIMIT, float(g))) for g in gains]
+        if gains == self.gains:
+            return  # sem mudança: nem pw-cli nem "changed"
+        self.gains = gains
         if self.running and self.node_id is not None:
             if self._gain_source is not None:
                 GLib.source_remove(self._gain_source)
@@ -131,6 +134,8 @@ class SystemEqService(GObject.Object):
         self.emit("changed")
 
     def set_enabled(self, enabled: bool) -> None:
+        if enabled == self.enabled and (self.running or not enabled or not self.target_sink):
+            return  # sem mudança
         self.enabled = enabled
         if enabled and not self.running and self.target_sink:
             self._start()

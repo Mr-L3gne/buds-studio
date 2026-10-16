@@ -15,6 +15,7 @@ from test_services import PipeWireParsingTest
 
 from budsstudio.services import audio as audio_mod
 from budsstudio.services.audio import AudioService
+from budsstudio.services.system_eq import SystemEqService
 
 OBJECTS = PipeWireParsingTest.OBJECTS
 
@@ -73,6 +74,19 @@ class AudioIdleTest(unittest.TestCase):
         self.assertEqual(len(self.dump.pending), 1)
         self.dump.answer(OBJECTS)
         self.assertEqual(sorted(done), [1, 2])
+
+
+class SystemEqIdleTest(unittest.TestCase):
+    def test_same_values_do_not_emit(self):
+        eq = SystemEqService()
+        changed = []
+        eq.connect("changed", lambda *_: changed.append(1))
+        eq.set_gains([0.0] * 10)
+        eq.set_enabled(False)
+        eq.set_target_sink(None)
+        self.assertEqual(changed, [])
+        eq.set_gains([1.0] + [0.0] * 9)
+        self.assertEqual(changed, [1])
 
 
 if __name__ == "__main__":
