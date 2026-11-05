@@ -26,6 +26,15 @@
     <property name="title" translatable="yes">Computer equalizer</property>
     
   </object>
+</child><child>
+  <object class="AdwComboRow" id="system_eq_preset">
+    <property name="title" translatable="yes">Curve</property>
+  </object>
+</child><child>
+  <object class="AdwSwitchRow" id="system_eq_headroom">
+    <property name="title" translatable="yes">Prevent distortion</property>
+    <property name="subtitle" translatable="yes">Lowers the overall volume by what the curve boosts, so loud music does not clip.</property>
+  </object>
 </child><child><object class="GtkBox" id="system_eq_bands"><property name="homogeneous">True</property><style><class name="card"/><class name="system-eq"/></style></object></child>
   </object>
 </child>

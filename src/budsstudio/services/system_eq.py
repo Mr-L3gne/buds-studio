@@ -18,9 +18,12 @@ from gi.repository import Gio, GLib, GObject
 
 from . import pipewire as pw
 from .config import SYSTEM_EQ_BANDS_HZ, SYSTEM_EQ_GAIN_LIMIT
+from .eq_curves import Q, SYSTEM_EQ_PRESETS, headroom_db, preamp_mult, preset_for, preset_gains  # noqa: F401
+from .fsutil import write_private
 
 SINK_NAME = "buds_studio_eq"
-_Q = 1.41
+PREAMP = "preamp"  # nó `linear` antes das bandas: tira do volume geral o que as bandas reforçam
+
 _FIND_NODE_DELAY_MS = 800
 _GAIN_DEBOUNCE_MS = 150
 
@@ -35,18 +38,20 @@ def pipewire_binary() -> str | None:
     return shutil.which("pipewire")
 
 
-def build_config(gains: list[float], target: str, description: str) -> str:
+def build_config(gains: list[float], target: str, description: str, headroom: bool = True) -> str:
     if not pw.valid_bluez_sink(target):
         raise ValueError(f"saída inválida: {target!r}")
-    nodes = []
+    nodes = [
+        f'            {{ type = builtin name = {PREAMP} label = linear '
+        f'control = {{ "Mult" = {preamp_mult(gains, headroom):.4f} "Add" = 0.0 }} }}'
+    ]
     links = []
     for i, (freq, gain) in enumerate(zip(SYSTEM_EQ_BANDS_HZ, gains), start=1):
         nodes.append(
             f'            {{ type = builtin name = band{i} label = bq_peaking '
-            f'control = {{ "Freq" = {float(freq)} "Q" = {_Q} "Gain" = {float(gain):.2f} }} }}'
+            f'control = {{ "Freq" = {float(freq)} "Q" = {Q} "Gain" = {float(gain):.2f} }} }}'
         )
-        if i > 1:
-            links.append(f'            {{ output = "band{i - 1}:Out" input = "band{i}:In" }}')
+        links.append(f'            {{ output = "{PREAMP if i == 1 else f"band{i - 1}"}:Out" input = "band{i}:In" }}')
     return f"""# Gerado pelo Buds Studio (EQ de sistema).
 context.properties = {{
     log.level = 0
@@ -109,6 +114,7 @@ class SystemEqService(GObject.Object):
         super().__init__()
         self.description = description
         self.gains = [0.0] * len(SYSTEM_EQ_BANDS_HZ)
+        self.headroom = True
         self.enabled = False
         self.target_sink: str | None = None
         self.node_id: int | None = None
@@ -147,6 +153,14 @@ class SystemEqService(GObject.Object):
             self._gain_source = GLib.timeout_add(_GAIN_DEBOUNCE_MS, self._push_gains)
         self.emit("changed")
 
+    def set_headroom(self, enabled: bool) -> None:
+        if enabled == self.headroom:
+            return
+        self.headroom = enabled
+        if self.running and self.node_id is not None:
+            self._push_gains()
+        self.emit("changed")
+
     def set_enabled(self, enabled: bool) -> None:
         if enabled == self.enabled and (self.running or not enabled or not self.target_sink):
             return  # sem mudança
@@ -164,8 +178,11 @@ class SystemEqService(GObject.Object):
             return
         conf = pw.runtime_dir() / "system-eq.conf"
         try:
-            conf.write_text(build_config(self.gains, self.target_sink or "", self.description))
+            write_private(conf, build_config(self.gains, self.target_sink or "", self.description, self.headroom))
         except ValueError as exc:
+            self.emit("error", str(exc))
+            return
+        except OSError as exc:
             self.emit("error", str(exc))
             return
         launcher = Gio.SubprocessLauncher.new(Gio.SubprocessFlags.STDOUT_SILENCE | Gio.SubprocessFlags.STDERR_PIPE)
@@ -239,6 +256,7 @@ class SystemEqService(GObject.Object):
         if self.node_id is None:
             return GLib.SOURCE_REMOVE
         params = " ".join(f'"band{i}:Gain" {g:.2f}' for i, g in enumerate(self.gains, start=1))
+        params += f' "{PREAMP}:Mult" {preamp_mult(self.gains, self.headroom):.4f}'
         pw.run(["pw-cli", "set-param", str(self.node_id), "Props", f"{{ params = [ {params} ] }}"])
         return GLib.SOURCE_REMOVE
 

@@ -1318,3 +1318,68 @@ msgstr "Nível de bateria baixa"
 #: data/ui/preferences.ui:103
 msgid "Percent"
 msgstr "Porcentagem"
+
+#: src/budsstudio/services/profiles.py
+#, python-brace-format
+msgid "Too many profiles (the limit is {limit})"
+msgstr "Perfis demais (o limite é {limit})"
+
+#: src/budsstudio/cli/__init__.py
+msgid "Too many or too long arguments"
+msgstr "Argumentos demais ou longos demais"
+
+#: src/budsstudio/cli/__init__.py
+#, python-brace-format
+msgid "invalid number: {value}"
+msgstr "número inválido: {value}"
+
+#: src/budsstudio/cli/__init__.py
+#, python-brace-format
+msgid "must be between 0 and {max} seconds"
+msgstr "deve ficar entre 0 e {max} segundos"
+
+#: src/budsstudio/cli/__init__.py
+msgid "curve of the system equalizer (needs the app running)"
+msgstr "curva do equalizador de sistema (precisa do app aberto)"
+
+#: src/budsstudio/cli/runner.py
+#, python-brace-format
+msgid "Unknown curve: {name}"
+msgstr "Curva desconhecida: {name}"
+
+#: src/budsstudio/cli/runner.py
+#, python-brace-format
+msgid "System equalizer curve: {name}"
+msgstr "Curva do equalizador de sistema: {name}"
+
+#: src/budsstudio/ui/labels.py
+msgid "Flat"
+msgstr "Plana"
+
+#: src/budsstudio/ui/labels.py
+msgid "Vocals"
+msgstr "Vozes"
+
+#: src/budsstudio/ui/labels.py
+msgid "Loudness"
+msgstr "Loudness"
+
+#: src/budsstudio/ui/labels.py
+msgid "Soft"
+msgstr "Suave"
+
+#: src/budsstudio/ui/pages.py
+msgid "Custom"
+msgstr "Personalizada"
+
+#: data/ui/page-system-eq.ui
+msgid "Curve"
+msgstr "Curva"
+
+#: data/ui/page-system-eq.ui
+msgid "Prevent distortion"
+msgstr "Evitar distorção"
+
+#: data/ui/page-system-eq.ui
+msgid "Lowers the overall volume by what the curve boosts, so loud music does not clip."
+msgstr "Reduz o volume geral pelo quanto a curva reforça, para que músicas altas não distorçam."

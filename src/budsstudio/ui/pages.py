@@ -13,9 +13,12 @@ from ..protocol import Cap, NoiseCycle
 from ..protocol.messages import BALANCE_CENTER, LINUX_TOUCH_HOLD_OPTIONS, TouchHoldOption
 from ..services.config import SYSTEM_EQ_BANDS_HZ, SYSTEM_EQ_GAIN_LIMIT
 from ..services.device import CommandError
+from ..services.eq_curves import SYSTEM_EQ_PRESETS, preset_for, preset_gains
 from ..services.profiles import Profile, ProfileError, profile_from_current
 from .builder import Ui
-from .labels import connection_labels, fit_label, noise_labels, preset_labels, touch_hold_labels
+from .labels import (
+    connection_labels, fit_label, noise_labels, preset_labels, system_eq_preset_labels, touch_hold_labels,
+)
 
 _DEBOUNCE_MS = 300
 _NOISE_NAMES = {0: "off", 2: "ambient", 1: "anc"}  # ordem do app original: Desativado · Ambiente · ANC
@@ -361,6 +364,13 @@ class SystemEqPage(Page):
         self.switch.connect("notify::active", self._on_toggle)
         self.bands_box = ui.get("system_eq_bands", Gtk.Box)
         ui.get("system_eq_reset", Gtk.Button).connect("clicked", self._on_reset)
+        self.preset_keys = list(SYSTEM_EQ_PRESETS)
+        self.preset_row = ui.get("system_eq_preset", Adw.ComboRow)
+        labels = system_eq_preset_labels()
+        self.preset_row.set_model(_string_list([_("Custom")] + [labels[k] for k in self.preset_keys]))
+        self.preset_row.connect("notify::selected", self._on_preset)
+        self.headroom = ui.get("system_eq_headroom", Adw.SwitchRow)
+        self.headroom.connect("notify::active", self._on_headroom)
         self.scales: list[Gtk.Scale] = []
         self.values: list[Gtk.Label] = []
         self._push = Debounce(120, self._send_gains)
@@ -399,6 +409,7 @@ class SystemEqPage(Page):
         self._update_labels()
         if not self.updating:
             self._push()
+            self.guarded(self._select_preset_row)
 
     def _send_gains(self) -> None:
         gains = [round(s.get_value(), 1) for s in self.scales]
@@ -407,8 +418,37 @@ class SystemEqPage(Page):
         self.system_eq.set_gains(gains)
 
     def _on_reset(self, _button) -> None:
-        for scale in self.scales:
-            scale.set_value(0.0)
+        self._set_gains([0.0] * len(self.scales))
+
+    def _apply_scales(self, gains: list[float]) -> None:
+        for scale, gain in zip(self.scales, gains):
+            scale.set_value(gain)
+
+    def _set_gains(self, gains: list[float]) -> None:
+        """Ação do usuário (preset, Reset): move todos os sliders e envia a curva de uma vez."""
+        self.guarded(lambda: self._apply_scales(gains))
+        self._update_labels()
+        self._push()
+        self.guarded(self._select_preset_row)
+
+    def _on_preset(self, row, _pspec) -> None:
+        if self.updating or row.get_selected() == 0:  # 0 = "Custom": só descreve a curva atual
+            return
+        gains = preset_gains(self.preset_keys[row.get_selected() - 1])
+        if gains is not None:
+            self._set_gains(gains)
+
+    def _on_headroom(self, row, _pspec) -> None:
+        if self.updating:
+            return
+        self.app.config.system_eq_headroom = row.get_active()
+        self.app.save_config()
+        self.system_eq.set_headroom(row.get_active())
+
+    def _select_preset_row(self) -> None:
+        """Mostra no seletor o preset que casa com os sliders (ou "Custom")."""
+        name = preset_for([round(s.get_value(), 1) for s in self.scales])
+        self.preset_row.set_selected(self.preset_keys.index(name) + 1 if name else 0)
 
     def _on_toggle(self, row, _pspec) -> None:
         if self.updating:
@@ -418,6 +458,12 @@ class SystemEqPage(Page):
         self.app.update_system_eq()
 
     def _refresh(self) -> None:
+        # Os ganhos podem ter mudado fora desta página (perfil aplicado, CLI): acompanha a config.
+        gains = self.app.config.system_eq_gains
+        if [round(s.get_value(), 1) for s in self.scales] != [round(g, 1) for g in gains]:
+            self._apply_scales(gains)
+        self._select_preset_row()
+        self.headroom.set_active(self.app.config.system_eq_headroom)
         self.switch.set_active(self.app.config.system_eq_enabled)
         running = self.system_eq.running
         self.switch.set_subtitle(

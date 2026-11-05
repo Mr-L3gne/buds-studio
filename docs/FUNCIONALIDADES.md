@@ -46,6 +46,8 @@ Legenda de status:
 | Perfil de áudio A2DP ↔ HFP e codec | extra (PipeWire `pw-dump`/`pw-cli`) | Testada sem hardware (parcial) | Análise do `pw-dump` real em teste unitário; permissão de escrita validada no sandbox. A troca real não foi testada porque o áudio A2DP do fone tinha caído |
 | Troca automática para HFP quando um app grava | extra | Testada sem hardware | Detecção de gravação em teste unitário. Desligada por padrão |
 | EQ de sistema (10 bandas, PipeWire filter-chain) | extra | Testada sem hardware | No sandbox, com a saída do notebook: cria "Buds Studio EQ", vira padrão, muda o ganho ao vivo e restaura a saída anterior. Desligado por padrão |
+| Curvas prontas do EQ de sistema (Plana, Graves, Agudos, Vozes, Loudness, Suave) | extra | Testada sem hardware | Seletor "Curva" na tela do EQ do computador e `--system-eq-preset`. Mexer num slider troca o seletor para "Personalizada". Verificada na interface real (runtime GNOME 51) |
+| Evitar distorção no EQ de sistema (compensação de volume) | extra | Testada sem hardware | Nó `preamp` (`linear`) antes das bandas, com o volume reduzido pelo pico real da curva (resposta dos filtros somada, não só o maior ganho). Ligado por padrão; atualiza ao vivo via `pw-cli`. Conferido no PipeWire do computador: o grafo carrega e o `preamp:Mult` muda sem reiniciar |
 | Perfis salvos (aplicar, exportar, importar JSON) | extra | Testada no fone + sem hardware | `--profile` aplicou EQ e modo de jogo no fone; exportar/importar em teste unitário |
 | Ícone na bandeja (StatusNotifierItem) | extra | Não testada | Com a tela bloqueada não havia `StatusNotifierWatcher`; o app seguiu normal sem ele |
 | Notificações (bateria baixa, conectado/desconectado) | extra | Não testada | |

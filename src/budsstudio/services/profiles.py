@@ -6,6 +6,7 @@ Ficam em $XDG_CONFIG_HOME/buds-studio/profiles.json e podem ser exportados/impor
 from __future__ import annotations
 
 import json
+import unicodedata
 from dataclasses import asdict, dataclass, fields
 from pathlib import Path
 
@@ -13,9 +14,21 @@ from ..i18n import _
 from ..protocol import Cap
 from ..protocol.messages import BALANCE_MAX, BALANCE_MIN, NoiseControl, Preset
 from .config import SYSTEM_EQ_BANDS_HZ, SYSTEM_EQ_GAIN_LIMIT, config_dir
+from .fsutil import private_dir, read_json, write_private
 
 FORMAT = "buds-studio-profiles"
 FORMAT_VERSION = 1
+MAX_NAME_LENGTH = 64
+MAX_PROFILES = 100  # limite do arquivo (e do que uma importação pode acrescentar)
+
+
+def _is_int(value) -> bool:
+    return isinstance(value, int) and not isinstance(value, bool)  # True/False não são números aqui
+
+
+def clean_name(name: str) -> str:
+    """Nome sem espaços nas pontas nem caracteres de controle (quebras de linha, ESC etc.)."""
+    return "".join(c for c in name if unicodedata.category(c) not in ("Cc", "Cf", "Cs")).strip()
 
 
 class ProfileError(Exception):
@@ -38,7 +51,7 @@ class Profile:
             raise ProfileError(_("Invalid profile"))
         known = {f.name for f in fields(cls)}
         profile = cls(**{k: v for k, v in raw.items() if k in known})
-        profile.name = profile.name.strip()
+        profile.name = clean_name(profile.name)
         profile.validate()
         return profile
 
@@ -47,12 +60,13 @@ class Profile:
             if not ok:
                 raise ProfileError(_("Invalid value in profile “{name}”").format(name=self.name))
 
+        check(isinstance(self.name, str) and 0 < len(self.name) <= MAX_NAME_LENGTH)
         if self.preset is not None:
-            check(isinstance(self.preset, int) and self.preset in tuple(Preset))
+            check(_is_int(self.preset) and self.preset in tuple(Preset))
         if self.noise_control is not None:
-            check(isinstance(self.noise_control, int) and self.noise_control in tuple(NoiseControl))
+            check(_is_int(self.noise_control) and self.noise_control in tuple(NoiseControl))
         if self.balance is not None:
-            check(isinstance(self.balance, int) and BALANCE_MIN <= self.balance <= BALANCE_MAX)
+            check(_is_int(self.balance) and BALANCE_MIN <= self.balance <= BALANCE_MAX)
         if self.game_mode is not None:
             check(isinstance(self.game_mode, bool))
         if self.system_eq_enabled is not None:
@@ -62,7 +76,7 @@ class Profile:
                 isinstance(self.system_eq_gains, list)
                 and len(self.system_eq_gains) == len(SYSTEM_EQ_BANDS_HZ)
                 and all(
-                    isinstance(g, (int, float)) and abs(g) <= SYSTEM_EQ_GAIN_LIMIT
+                    isinstance(g, (int, float)) and not isinstance(g, bool) and abs(g) <= SYSTEM_EQ_GAIN_LIMIT
                     for g in self.system_eq_gains
                 )
             )
@@ -76,26 +90,26 @@ class ProfileStore:
 
     def load(self) -> None:
         try:
-            raw = json.loads(self.path.read_text(encoding="utf-8"))
-            self.profiles = self._parse(raw)
+            self.profiles = self._parse(read_json(self.path))
         except (OSError, ValueError, ProfileError):
             self.profiles = []
 
     def save(self) -> None:
-        self.path.parent.mkdir(parents=True, exist_ok=True)
-        tmp = self.path.with_suffix(".tmp")
-        tmp.write_text(json.dumps(self._dump(self.profiles), indent=2, ensure_ascii=False) + "\n", "utf-8")
-        tmp.replace(self.path)
+        private_dir(self.path.parent)
+        write_private(self.path, json.dumps(self._dump(self.profiles), indent=2, ensure_ascii=False) + "\n")
 
     def get(self, name: str) -> Profile | None:
         key = name.strip().casefold()
         return next((p for p in self.profiles if p.name.casefold() == key), None)
 
     def put(self, profile: Profile) -> None:
+        profile.name = clean_name(profile.name)
         profile.validate()
         existing = self.get(profile.name)
         if existing is not None:
             self.profiles[self.profiles.index(existing)] = profile
+        elif len(self.profiles) >= MAX_PROFILES:
+            raise ProfileError(_("Too many profiles (the limit is {limit})").format(limit=MAX_PROFILES))
         else:
             self.profiles.append(profile)
         self.save()
@@ -108,20 +122,29 @@ class ProfileStore:
 
     def export(self, path: Path, names: list[str] | None = None) -> None:
         chosen = [p for p in self.profiles if names is None or p.name in names]
-        Path(path).write_text(json.dumps(self._dump(chosen), indent=2, ensure_ascii=False) + "\n", "utf-8")
+        text = json.dumps(self._dump(chosen), indent=2, ensure_ascii=False) + "\n"
+        try:
+            write_private(Path(path), text, mode=0o666)  # arquivo para compartilhar: vale o umask do usuário
+        except OSError:
+            # Pastas do portal de documentos (Flatpak) podem não aceitar o arquivo temporário ao lado.
+            Path(path).write_text(text, encoding="utf-8")
 
     def import_file(self, path: Path) -> list[str]:
         """Importa perfis; os de mesmo nome são substituídos. Devolve os nomes importados."""
         try:
-            raw = json.loads(Path(path).read_text(encoding="utf-8"))
+            raw = read_json(Path(path))
         except (OSError, ValueError) as exc:
             raise ProfileError(_("Could not read the file: {error}").format(error=exc)) from exc
         imported = self._parse(raw)
+        merged = list(self.profiles)
         for profile in imported:
-            existing = self.get(profile.name)
+            existing = next((p for p in merged if p.name.casefold() == profile.name.casefold()), None)
             if existing is not None:
-                self.profiles.remove(existing)
-            self.profiles.append(profile)
+                merged.remove(existing)
+            merged.append(profile)
+        if len(merged) > MAX_PROFILES:
+            raise ProfileError(_("Too many profiles (the limit is {limit})").format(limit=MAX_PROFILES))
+        self.profiles = merged
         self.save()
         return [p.name for p in imported]
 
@@ -140,6 +163,8 @@ class ProfileStore:
         items = raw.get("profiles")
         if not isinstance(items, list):
             raise ProfileError(_("This is not a Buds Studio profile file"))
+        if len(items) > MAX_PROFILES:
+            raise ProfileError(_("Too many profiles (the limit is {limit})").format(limit=MAX_PROFILES))
         return [Profile.from_dict(item) for item in items]
 
 

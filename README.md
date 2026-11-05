@@ -52,6 +52,7 @@ flatpak run io.github.mr_l3gne.BudsStudio --profile "Música"
 flatpak run io.github.mr_l3gne.BudsStudio --set balance=16      # --help lista todas as chaves
 flatpak run io.github.mr_l3gne.BudsStudio --status --device "Galaxy Buds Core"   # nome ou endereço
 flatpak run io.github.mr_l3gne.BudsStudio --audio-profile hfp   # a2dp|hfp
+flatpak run io.github.mr_l3gne.BudsStudio --system-eq-preset bass   # flat|bass|treble|vocal|loudness|soft (EQ do computador; app aberto)
 flatpak run io.github.mr_l3gne.BudsStudio --find start          # tire os fones do ouvido!
 flatpak run io.github.mr_l3gne.BudsStudio --background          # inicia na bandeja
 flatpak run io.github.mr_l3gne.BudsStudio --status --debug      # mostra os pacotes em hex
@@ -92,7 +93,7 @@ src/budsstudio/
   cli/        linha de comando (usa os mesmos services)
 data/         style.css, ui/, backgrounds/, ícone, .desktop, metainfo
 po/           traduções (pt_BR; o inglês é o idioma do código)
-tests/        protocolo (pacotes reais do SM-R410), services, vários fones e CLI (transporte simulado)
+tests/        protocolo (pacotes reais do SM-R410), services, segurança, vários fones e CLI (transporte simulado)
 docs/         PROTOCOLO.md, DESIGN-REFERENCIA.md, FUNCIONALIDADES.md, TESTE-MANUAL.md, screenshots/
 ```
 
@@ -115,6 +116,18 @@ No Flatpak, tudo fica em `~/.var/app/io.github.mr_l3gne.BudsStudio/config/buds-s
 Notificações e início com o sistema usam portais, sem permissão extra. O app usa um `client.conf`
 do PipeWire com `media.category = Manager`, porque o WirePlumber só dá escrita a apps Flatpak
 com essa categoria.
+
+## Segurança
+
+- `config.json`, `profiles.json` e os arquivos temporários do PipeWire são gravados de forma
+  atômica (arquivo temporário + `fsync` + troca) e só o dono lê (0600; pastas 0700).
+- Arquivos lidos (config, perfis importados) têm limite de 1 MiB; JSON aninhado demais, com
+  perfis demais (máx. 100) ou com nomes de perfil longos/com caracteres de controle é recusado.
+- O `node.name` que vem do PipeWire só chega à config do EQ e ao `pw-metadata` se for
+  `bluez_output.<endereço>` (testes em `tests/test_security.py`).
+- A CLI repassada a um app já aberto (D-Bus `Run`) limita o número e o tamanho dos argumentos e
+  o `--timeout` (até 120 s).
+- Nenhuma escrita de manutenção (firmware, reset de fábrica) existe no código.
 
 ## Modelos
 

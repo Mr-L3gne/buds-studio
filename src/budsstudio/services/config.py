@@ -11,6 +11,7 @@ from dataclasses import asdict, dataclass, field, fields
 from pathlib import Path
 
 from .. import APP_SLUG
+from .fsutil import private_dir, read_json, write_private
 
 SYSTEM_EQ_BANDS_HZ = (31, 62, 125, 250, 500, 1000, 2000, 4000, 8000, 16000)
 SYSTEM_EQ_GAIN_LIMIT = 12.0
@@ -40,6 +41,7 @@ class Config:
     audio_autoswitch: bool = False
     system_eq_enabled: bool = False
     system_eq_gains: list[float] = field(default_factory=lambda: [0.0] * len(SYSTEM_EQ_BANDS_HZ))
+    system_eq_headroom: bool = True  # reduz o volume geral pelo maior reforço, para não distorcer
 
     @classmethod
     def path(cls) -> Path:
@@ -49,7 +51,7 @@ class Config:
     def load(cls, path: Path | None = None) -> "Config":
         path = path or cls.path()
         try:
-            raw = json.loads(path.read_text(encoding="utf-8"))
+            raw = read_json(path)
         except (OSError, ValueError):
             return cls()
         if not isinstance(raw, dict):
@@ -92,7 +94,5 @@ class Config:
 
     def save(self, path: Path | None = None) -> None:
         path = path or self.path()
-        path.parent.mkdir(parents=True, exist_ok=True)
-        tmp = path.with_suffix(".tmp")
-        tmp.write_text(json.dumps(asdict(self), indent=2) + "\n", encoding="utf-8")
-        tmp.replace(path)
+        private_dir(path.parent)
+        write_private(path, json.dumps(asdict(self), indent=2) + "\n")

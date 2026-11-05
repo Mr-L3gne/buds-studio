@@ -12,9 +12,16 @@ import json
 from .. import APP_NAME, VERSION
 from ..i18n import _
 from ..protocol.messages import BALANCE_MAX, BALANCE_MIN, NOISE_KEYS, PRESET_KEYS
+from ..services.eq_curves import SYSTEM_EQ_PRESETS
+
+# Segurança da CLI: o mesmo parser atende a interface D-Bus `Run`, que recebe os argumentos de
+# outro processo. Estes limites barram pedidos absurdos antes de qualquer trabalho.
+MAX_ARGS = 32
+MAX_ARG_LENGTH = 256
+MAX_TIMEOUT_S = 120.0
 
 ACTION_KEYS = ("status", "info", "list", "preset", "anc", "profile", "profiles", "set", "find", "mute",
-               "fit_test", "audio_profile", "system_eq")
+               "fit_test", "audio_profile", "system_eq", "system_eq_preset")
 
 SET_KEYS = {
     "balance": f"{BALANCE_MIN}-{BALANCE_MAX}",
@@ -49,6 +56,16 @@ class _Parser(argparse.ArgumentParser):
         raise CliError(message or "")
 
 
+def _timeout(value: str) -> float:
+    try:
+        seconds = float(value)
+    except ValueError:
+        raise argparse.ArgumentTypeError(_("invalid number: {value}").format(value=value)) from None
+    if not 0 < seconds <= MAX_TIMEOUT_S:  # também recusa nan e inf
+        raise argparse.ArgumentTypeError(_("must be between 0 and {max} seconds").format(max=int(MAX_TIMEOUT_S)))
+    return seconds
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = _Parser(
         prog="buds-studio",
@@ -71,15 +88,23 @@ def build_parser() -> argparse.ArgumentParser:
     a.add_argument("--fit-test", action="store_true", help=_("run the earbud fit test (wear both earbuds)"))
     a.add_argument("--audio-profile", choices=["a2dp", "hfp"], help=_("Bluetooth audio mode: music or headset"))
     a.add_argument("--system-eq", choices=["on", "off"], help=_("system equalizer (needs the app running)"))
+    a.add_argument("--system-eq-preset", choices=list(SYSTEM_EQ_PRESETS),
+                   help=_("curve of the system equalizer (needs the app running)"))
     p.add_argument("--device", metavar=_("NAME|ADDRESS"), help=_("earbuds to use, by name or Bluetooth address"))
     p.add_argument("--channel", type=int, metavar="N", help=_("connect straight to this RFCOMM channel (diagnostics)"))
-    p.add_argument("--timeout", type=float, default=15.0, help=_("seconds to wait (default: 15)"))
+    p.add_argument("--timeout", type=_timeout, default=15.0, help=_("seconds to wait (default: 15)"))
     p.add_argument("--json", action="store_true", help=_("JSON output for --status, --info and --list"))
     p.add_argument("--debug", action="store_true", help=_("print packets sent and received in hex"))
     p.add_argument("--background", action="store_true", help=_("start minimized in the background"))
     p.add_argument("--version", action="store_true", help=_("show the version"))
     p.add_argument("-h", "--help", action="store_true", help=_("show this help"))
     return p
+
+
+def check_argv(argv) -> None:
+    """Recusa uma lista de argumentos grande demais (vinda do D-Bus ou da linha de comando)."""
+    if len(argv) > MAX_ARGS or any(not isinstance(a, str) or len(a) > MAX_ARG_LENGTH for a in argv):
+        raise CliError(_("Too many or too long arguments"))
 
 
 def is_action(args) -> bool:
@@ -99,4 +124,4 @@ def dumps(data) -> str:
     return json.dumps(data, ensure_ascii=False, indent=2)
 
 
-__all__ = ["CliError", "VERSION", "build_parser", "dumps", "is_action", "parse_on_off", "SET_KEYS"]
+__all__ = ["CliError", "VERSION", "build_parser", "check_argv", "dumps", "is_action", "parse_on_off", "SET_KEYS"]

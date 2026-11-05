@@ -10,7 +10,7 @@ gi.require_version("Adw", "1")
 from gi.repository import Adw, Gio, GLib, Gtk  # noqa: E402
 
 from .. import APP_ID, APP_NAME, VERSION  # noqa: E402
-from ..cli import CliError, build_parser, is_action  # noqa: E402
+from ..cli import CliError, build_parser, check_argv, is_action  # noqa: E402
 from ..cli.runner import CliRunner  # noqa: E402
 from ..i18n import _  # noqa: E402
 from ..protocol import Cap, MsgId  # noqa: E402
@@ -72,6 +72,7 @@ class BudsStudioApplication(Adw.Application):
         self.audio = AudioService()
         self.system_eq = SystemEqService(_("Buds Studio EQ"))
         self.system_eq.set_gains(self.config.system_eq_gains)
+        self.system_eq.headroom = self.config.system_eq_headroom
         self.profiles = ProfileStore()
         self._notifications: dict[str, NotificationService] = {}
 
@@ -116,6 +117,11 @@ class BudsStudioApplication(Adw.Application):
             invocation.return_dbus_error("org.freedesktop.DBus.Error.UnknownMethod", method)
             return
         (argv,) = params.unpack()
+        try:
+            check_argv(argv)
+        except CliError as exc:
+            invocation.return_value(GLib.Variant("(iss)", (2, "", str(exc))))
+            return
         out_lines: list[str] = []
         err_lines: list[str] = []
 
@@ -438,6 +444,7 @@ class BudsStudioApplication(Adw.Application):
     def update_system_eq(self) -> None:
         if not self.persistent:
             return
+        self.system_eq.set_headroom(self.config.system_eq_headroom)
         self.system_eq.set_gains(self.config.system_eq_gains)
         self.system_eq.set_enabled(self.config.system_eq_enabled)
 

@@ -17,6 +17,7 @@ from typing import Callable
 from gi.repository import Gio, GLib
 
 from .. import APP_SLUG
+from .fsutil import private_dir, write_private
 
 _CLIENT_CONF = """# Gerado pelo Buds Studio: cliente PipeWire com permissão de gerenciador.
 context.properties = {
@@ -51,20 +52,30 @@ def sink_json(node_name: str) -> str:
     return json.dumps({"name": node_name})
 
 
+_client_dir: Path | None = None
+
+
 def runtime_dir() -> Path:
     base = os.environ.get("XDG_RUNTIME_DIR") or GLib.get_user_runtime_dir()
     flatpak_id = os.environ.get("FLATPAK_ID")
     path = Path(base) / "app" / flatpak_id / APP_SLUG if flatpak_id else Path(base) / APP_SLUG
-    path.mkdir(parents=True, exist_ok=True)
-    return path
+    return private_dir(path)  # só o dono: o system-eq.conf daqui é lido pelo `pipewire -c`
 
 
 def client_config_dir() -> Path:
-    path = runtime_dir() / "pipewire"
-    path.mkdir(parents=True, exist_ok=True)
+    """Pasta com o client.conf do app. Montada uma vez; roda a cada chamada do pw-cli/pw-metadata."""
+    global _client_dir
+    if _client_dir is not None and (_client_dir / "client.conf").is_file():
+        return _client_dir
+    path = private_dir(runtime_dir() / "pipewire")
     conf = path / "client.conf"
-    if not conf.exists() or conf.read_text() != _CLIENT_CONF:
-        conf.write_text(_CLIENT_CONF)
+    try:
+        current = conf.read_text()
+    except OSError:
+        current = None
+    if current != _CLIENT_CONF:
+        write_private(conf, _CLIENT_CONF)
+    _client_dir = path
     return path
 
 

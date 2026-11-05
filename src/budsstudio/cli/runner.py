@@ -11,8 +11,9 @@ from ..protocol import Cap, MsgId, NoiseCycle
 from ..protocol.messages import NOISE_KEYS, PRESET_KEYS, TouchHoldOption
 from ..services.device import CommandError, format_packet
 from ..services.profiles import apply_profile
+from ..services.eq_curves import preset_gains
 from ..transport.bluez import BluezError
-from ..ui.labels import fit_label, noise_labels, preset_labels, touch_hold_labels
+from ..ui.labels import fit_label, noise_labels, preset_labels, system_eq_preset_labels, touch_hold_labels
 from . import CliError, dumps, parse_on_off
 
 # Quanto esperar o ack 0x42 depois de um comando.
@@ -49,6 +50,8 @@ class CliRunner:
                 return self._profiles()
             if a.system_eq:
                 return self._system_eq()
+            if a.system_eq_preset:
+                return self._system_eq_preset()
             self._ensure_connected(self._run_action)
         except (CliError, BluezError, CommandError) as exc:
             self.fail(str(exc))
@@ -435,6 +438,20 @@ class CliRunner:
         self.app.save_config()
         self.app.update_system_eq()
         self.out(_("System equalizer: {state}").format(state=_on(enabled)))
+        self.finish(0)
+
+    def _system_eq_preset(self) -> None:
+        if not self.app.persistent:
+            raise CliError(_("The system equalizer only runs while Buds Studio is open (window or tray). "
+                             "Open it first, e.g. with: buds-studio --background"))
+        name = self.args.system_eq_preset
+        gains = preset_gains(name)
+        if gains is None:
+            raise CliError(_("Unknown curve: {name}").format(name=name))
+        self.app.config.system_eq_gains = gains
+        self.app.save_config()
+        self.app.update_system_eq()
+        self.out(_("System equalizer curve: {name}").format(name=system_eq_preset_labels()[name]))
         self.finish(0)
 
 

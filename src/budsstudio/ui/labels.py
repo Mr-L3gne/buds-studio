@@ -51,3 +51,15 @@ def fit_label(value: int) -> str:
     if value == 2:
         return _("Too much noise to check")
     return _("Poor fit")
+
+
+def system_eq_preset_labels() -> dict[str, str]:
+    """Curvas prontas do EQ do computador (chave em services.system_eq.SYSTEM_EQ_PRESETS)."""
+    return {
+        "flat": _("Flat"),
+        "bass": _("Bass boost"),
+        "treble": _("Treble boost"),
+        "vocal": _("Vocals"),
+        "loudness": _("Loudness"),
+        "soft": _("Soft"),
+    }

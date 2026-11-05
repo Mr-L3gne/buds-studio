@@ -17,6 +17,8 @@ src/budsstudio/services/audio.py
 src/budsstudio/services/background.py
 src/budsstudio/services/config.py
 src/budsstudio/services/device.py
+src/budsstudio/services/eq_curves.py
+src/budsstudio/services/fsutil.py
 src/budsstudio/services/__init__.py
 src/budsstudio/services/manager.py
 src/budsstudio/services/notifications.py
